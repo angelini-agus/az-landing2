@@ -4,6 +4,8 @@
 // Uses the confirmed copy: QR+GPS control, 95% fewer internal admin errors,
 // and the "own team" badge. The pending "buildings served" metric is NOT
 // invented — the card shows the confirmed 95% until the client confirms it.
+import { Image } from 'astro:assets';
+import quienesSomosImg from '../assets/quienes-somos.jpg';
 import Bubble from './ui/Bubble.astro';
 ---
 
@@ -68,11 +70,15 @@ import Bubble from './ui/Bubble.astro';
           data-reveal
           class="relative flex aspect-[4/5] min-h-[540px] w-full flex-col justify-end overflow-hidden rounded-[36px] border border-lila-suave/40 bg-lila-pastel/60 p-6 shadow-xl lg:min-h-[580px] lg:p-7"
         >
-          <!-- Background image placeholder (se reemplaza por la foto luego) -->
-          <div class="absolute inset-0 bg-gradient-to-t from-violeta-osc/15 via-transparent to-transparent"></div>
-          <div class="absolute inset-0 grid place-items-center text-xs font-medium text-texto-secundario/60 pointer-events-none">
-            IMG: Foto del servicio (pendiente)
-          </div>
+          <!-- Real team photo -->
+          <Image
+            src={quienesSomosImg}
+            alt="Personal de AZ Servicios de Limpieza uniformado"
+            widths={[400, 600, 800]}
+            sizes="(max-width: 640px) 100vw, 500px"
+            class="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-indigo-texto/70 via-indigo-texto/10 to-transparent"></div>
 
           <!-- Floating pills overlaid at the bottom of the card -->
           <div class="relative z-10 flex flex-col gap-3.5">

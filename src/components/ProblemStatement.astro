@@ -2,7 +2,7 @@
 // ProblemStatement.astro — "El Problema": Real photo on the left with ramp top edge sloping down
 // towards the middle; on the right: eyebrow, headline, body paragraph, and the 3 pain points in 3 rows.
 import { Image } from 'astro:assets';
-import notHeroImg from '../assets/notHero.jpg';
+import problemImg from '../assets/pileta.jpg';
 import Bubble from './ui/Bubble.astro';
 
 const bullets = [
@@ -49,7 +49,7 @@ const bullets = [
             style="clip-path: url(#problem-ramp-clip);"
           >
             <Image
-              src={notHeroImg}
+              src={problemImg}
               alt="Personal propio de AZ Servicios de Limpieza trabajando en instalaciones de un edificio"
               widths={[400, 600, 800]}
               sizes="(min-width: 1024px) 480px, 100vw"

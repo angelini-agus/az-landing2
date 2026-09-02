@@ -1,0 +1,173 @@
+---
+// HowItWorksSection.astro — How It Works (04 // CÓMO FUNCIONA).
+// Full-width block with asymmetric ramp geometry (left side higher, sloping down to the right),
+// filled with violeta-osc, 3 horizontal steps with matching icon shapes and connectors.
+import Bubble from './ui/Bubble.astro';
+
+// Asymmetric ramp background path for the entire section (left higher, sloping down to the right):
+const sectionRampPath =
+  'M 40 0 L 1400 36 C 1422 36.5 1440 54 1440 76 L 1440 556 C 1440 580 1420 600 1396 600 L 40 600 C 18 600 0 582 0 560 L 0 40 C 0 18 18 0 40 0 Z';
+
+// Asymmetric ramp paths for step icons:
+const rampLeftPath =
+  'M 38 4 L 10 0.5 C 4.5 0.5 0.5 4.5 0.5 10 L 0.5 38 C 0.5 43.5 4.5 47.5 10 47.5 L 38 47.5 C 43.5 47.5 47.5 43.5 47.5 38 L 47.5 14 C 47.5 8 43.5 4 38 4 Z';
+
+const rampRightPath =
+  'M 10 4 L 38 0.5 C 43.5 0.5 47.5 4.5 47.5 10 L 47.5 38 C 47.5 43.5 43.5 47.5 38 47.5 L 10 47.5 C 4.5 47.5 0.5 43.5 0.5 38 L 0.5 14 C 0.5 8 4.5 4 10 4 Z';
+---
+
+<section
+  id="como-funciona"
+  class="relative min-h-screen bg-bg-claro py-10 sm:py-12 lg:py-16 flex items-center overflow-visible w-full"
+>
+  <!-- Full-width ramp wrapper spanning across the viewport -->
+  <div class="w-full px-2 sm:px-4 lg:px-6">
+    <div
+      class="relative w-full overflow-hidden px-6 pt-20 pb-16 sm:px-10 sm:pt-24 sm:pb-20 lg:px-16 lg:pt-28 lg:pb-24"
+    >
+      <!-- Asymmetric ramp SVG background: left higher, sloping down to the right -->
+      <svg
+        class="pointer-events-none absolute inset-0 z-0 h-full w-full"
+        viewBox="0 0 1440 600"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d={sectionRampPath} fill="var(--color-violeta-osc)" />
+      </svg>
+
+      <!-- Decorative blurred white bubbles inside the ramp -->
+      <div class="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <Bubble size={420} top={-15} left={76} blur={70} opacity={0.14} tone="light" duration={7} delay={0} />
+        <Bubble size={260} top={62} left={-4} blur={55} opacity={0.1} tone="light" duration={6} delay={1} />
+        <Bubble size={140} top={18} left={88} blur={40} opacity={0.15} tone="light" duration={5.5} delay={0.5} />
+      </div>
+
+      <!-- Inner content constrained to standard container max-width and centered -->
+      <div class="relative z-10 mx-auto max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="mb-14 lg:mb-16 text-center">
+          <p
+            data-reveal
+            class="font-display text-sm font-semibold uppercase tracking-[0.12em] text-lila-suave"
+            style="--reveal-delay: 0ms"
+          >
+            04 // CÓMO FUNCIONA
+          </p>
+          <h2
+            data-reveal
+            class="font-display mx-auto mt-4 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-5xl"
+            style="--reveal-delay: 80ms"
+          >
+            Así arrancamos, en 3 pasos
+          </h2>
+        </div>
+
+        <!-- Steps row -->
+        <div class="mx-auto flex max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-start lg:gap-0 lg:justify-between">
+
+          <!-- Step 1: Mail (Ramp left higher) -->
+          <div
+            data-reveal
+            class="group flex flex-1 flex-col items-center text-center"
+            style="--reveal-delay: 180ms"
+          >
+            <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 48 48" class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none" fill="none">
+                <path d={rampLeftPath} fill="rgba(255, 255, 255, 0.12)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.5" />
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="absolute inset-0 m-auto h-7 w-7 text-white" aria-hidden="true">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <h3 class="mb-3 text-xl font-bold text-white">Nos escribís por mail</h3>
+            <p class="mx-auto max-w-[240px] text-sm leading-relaxed text-lila-suave">
+              Contanos qué tipo de espacio es (consorcio, oficina o clínica) y qué necesitás.
+            </p>
+          </div>
+
+          <!-- Connector arrow 1 → 2 -->
+          <div class="hidden shrink-0 items-center justify-center pt-8 lg:flex" aria-hidden="true">
+            <svg class="h-6 w-16 text-white/25" viewBox="0 0 64 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12 C 20 4, 44 4, 56 12"/>
+              <path d="M50 8 L 56 12 L 50 16"/>
+            </svg>
+          </div>
+
+          <!-- Step 2: WhatsApp (Balanced rounded box) -->
+          <div
+            data-reveal
+            class="group flex flex-1 flex-col items-center text-center"
+            style="--reveal-delay: 310ms"
+          >
+            <div class="mb-6 grid h-16 w-16 place-items-center rounded-2xl border border-white/18 bg-white/12 text-white transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="h-7 w-7 text-white" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.44 2 2 0 0 1 3.6 2.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.27a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 17z"/>
+              </svg>
+            </div>
+            <h3 class="mb-3 text-xl font-bold text-white">Evaluamos tu caso</h3>
+            <p class="mx-auto max-w-[240px] text-sm leading-relaxed text-lila-suave">
+              Si encaja con lo que hacemos, te contactamos por WhatsApp para coordinar una visita.
+            </p>
+          </div>
+
+          <!-- Connector arrow 2 → 3 -->
+          <div class="hidden shrink-0 items-center justify-center pt-8 lg:flex" aria-hidden="true">
+            <svg class="h-6 w-16 text-white/25" viewBox="0 0 64 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 12 C 20 4, 44 4, 56 12"/>
+              <path d="M50 8 L 56 12 L 50 16"/>
+            </svg>
+          </div>
+
+          <!-- Step 3: Seguimiento (Ramp right higher) -->
+          <div
+            data-reveal
+            class="group flex flex-1 flex-col items-center text-center"
+            style="--reveal-delay: 440ms"
+          >
+            <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+              <svg viewBox="0 0 48 48" class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none" fill="none">
+                <path d={rampRightPath} fill="rgba(255, 255, 255, 0.12)" stroke="rgba(255, 255, 255, 0.18)" stroke-width="1.5" />
+              </svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="absolute inset-0 m-auto h-7 w-7 text-white" aria-hidden="true">
+                <rect width="18" height="18" x="3" y="4" rx="2"/>
+                <path d="M16 2v4"/>
+                <path d="M8 2v4"/>
+                <path d="M3 10h18"/>
+                <path d="m9 16 2 2 4-4"/>
+              </svg>
+            </span>
+            <h3 class="mb-3 text-xl font-bold text-white">Empezamos con seguimiento</h3>
+            <p class="mx-auto max-w-[240px] text-sm leading-relaxed text-lila-suave">
+              Con control de asistencia desde el primer día.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const revealTargets = document.querySelectorAll<HTMLElement>('#como-funciona [data-reveal]');
+
+  if (revealTargets.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealTargets.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12 },
+      );
+      revealTargets.forEach((el) => observer.observe(el));
+    }
+  }
+</script>

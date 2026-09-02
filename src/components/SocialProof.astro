@@ -1,0 +1,143 @@
+---
+// Social proof section for AZ Limpieza — "01 // Who We Are" style from the
+// Freshify reference (metrics only, no testimonials per AGENTS.md).
+// Uses the confirmed copy: QR+GPS control, 95% fewer internal admin errors,
+// and the "own team" badge. The pending "buildings served" metric is NOT
+// invented — the card shows the confirmed 95% until the client confirms it.
+import Bubble from './ui/Bubble.astro';
+---
+
+<section id="quienes-somos" class="relative overflow-hidden bg-bg-claro">
+  <div id="como-trabajamos" class="sr-only"></div>
+  <div id="nosotros" class="sr-only"></div>
+  <!-- Decorative bubbles: white/gray, blurred, never brand-tinted. -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <Bubble size={280} top={-10} left={-8} blur={60} opacity={0.55} tone="light" duration={6} delay={0.4} />
+    <Bubble size={180} top={70} left={90} blur={50} opacity={0.5} tone="gray" duration={5.5} delay={1.2} />
+    <Bubble size={100} top={30} left={95} blur={35} opacity={0.45} tone="light" duration={5} delay={0.8} />
+  </div>
+
+  <div class="container-page relative py-16 lg:py-24">
+    <div
+      class="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16 xl:gap-[240px]"
+    >
+      <!-- Left column: wider (max-w-[580px]), headline, copy, and carousel placeholder -->
+      <div class="w-full max-w-[580px] space-y-6">
+        <p
+          class="font-display text-sm font-medium uppercase tracking-[0.12em] text-lila-medio"
+        >
+          01 // Quiénes somos
+        </p>
+
+        <h2
+          class="font-display text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-indigo-texto sm:text-5xl lg:text-[3.25rem]"
+        >
+          Limpieza profesional con control y constancia
+        </h2>
+
+        <div class="space-y-4 text-base leading-relaxed text-texto-secundario">
+          <p>
+            Un servicio pensado exclusivamente para administradores de
+            consorcios, oficinas y clínicas que necesitan previsibilidad y
+            orden.
+          </p>
+          <p>
+            Cada turno queda registrado con QR y GPS, sin depender de que
+            alguien avise si faltó personal. Equipo propio, protocolos
+            documentados y un solo canal directo para resolverlo.
+          </p>
+        </div>
+
+        <!-- Carousel space (se implementa luego) -->
+        <div class="pt-6 border-t border-lila-suave/40">
+          <p class="text-xs font-semibold uppercase tracking-wider text-texto-secundario/70 mb-3.5">
+            Espacios y consorcios que confían en nosotros
+          </p>
+          <div class="flex items-center gap-7 opacity-40 grayscale">
+            <div class="h-6 w-24 rounded-md bg-lila-suave/50"></div>
+            <div class="h-6 w-28 rounded-md bg-lila-suave/50"></div>
+            <div class="h-6 w-24 rounded-md bg-lila-suave/50"></div>
+            <div class="h-6 w-28 rounded-md bg-lila-suave/50"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right column: wider and tall card (max-w-[500px], aspect-[4/5]) with floating pills -->
+      <div class="w-full max-w-[500px] shrink-0">
+        <div
+          data-reveal
+          class="relative flex aspect-[4/5] min-h-[540px] w-full flex-col justify-end overflow-hidden rounded-[36px] border border-lila-suave/40 bg-lila-pastel/60 p-6 shadow-xl lg:min-h-[580px] lg:p-7"
+        >
+          <!-- Background image placeholder (se reemplaza por la foto luego) -->
+          <div class="absolute inset-0 bg-gradient-to-t from-violeta-osc/15 via-transparent to-transparent"></div>
+          <div class="absolute inset-0 grid place-items-center text-xs font-medium text-texto-secundario/60 pointer-events-none">
+            IMG: Foto del servicio (pendiente)
+          </div>
+
+          <!-- Floating pills overlaid at the bottom of the card -->
+          <div class="relative z-10 flex flex-col gap-3.5">
+            <!-- Pill 1: Lock / shield badge -->
+            <div class="flex items-center gap-3.5 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-sm backdrop-blur-md">
+              <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lila-pastel text-violeta-osc">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-5 w-5"
+                  aria-hidden="true"
+                >
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </span>
+              <span class="flex flex-col leading-tight">
+                <span class="font-display text-xs font-bold uppercase tracking-wider text-indigo-texto">
+                  Equipo propio asegurado
+                </span>
+                <span class="text-[11px] text-texto-secundario">
+                  Personal de AZ, no tercerizado
+                </span>
+              </span>
+            </div>
+
+            <!-- Pill 2: 50+ stat badge -->
+            <div class="flex items-center gap-4 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-sm backdrop-blur-md">
+              <span class="font-display text-4xl font-bold leading-none text-indigo-texto">
+                50+
+              </span>
+              <span class="text-xs font-semibold uppercase tracking-wider leading-tight text-texto-secundario">
+                Edificios, oficinas<br />y clínicas atendidos
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const revealTargets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+  if (revealTargets.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealTargets.forEach((target) => target.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15 },
+      );
+      revealTargets.forEach((target) => observer.observe(target));
+    }
+  }
+</script>

@@ -1,6 +1,17 @@
 # Dependencies
 node_modules/
 
+# Astro
+.astro/
+
+# Local design references (not for repo)
+referencias/
+
+# Installed agent skills (managed via `skills` CLI)
+.agents/
+.claude/
+.atl/
+
 # Build outputs
 dist/
 build/

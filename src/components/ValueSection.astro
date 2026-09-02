@@ -1,0 +1,277 @@
+---
+// ValueSection.astro — Solution / Value section (03 // POR QUÉ ELEGIRNOS).
+// 4 feature cards in a horizontal grid (middle 2 offset downwards) + 3 statistics row below.
+import Bubble from './ui/Bubble.astro';
+
+export interface StatItem {
+  value: string;
+  labelTop: string;
+  labelBottom: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  stats?: StatItem[];
+}
+
+// Asymmetric ramp background paths matching the contact icon in Navbar:
+// Left 2 cards: left side higher (descent to right)
+const rampLeftPath =
+  'M 38 4 L 10 0.5 C 4.5 0.5 0.5 4.5 0.5 10 L 0.5 38 C 0.5 43.5 4.5 47.5 10 47.5 L 38 47.5 C 43.5 47.5 47.5 43.5 47.5 38 L 47.5 14 C 47.5 8 43.5 4 38 4 Z';
+
+// Right 2 cards: right side higher (descent to left, identical to Navbar)
+const rampRightPath =
+  'M 10 4 L 38 0.5 C 43.5 0.5 47.5 4.5 47.5 10 L 47.5 38 C 47.5 43.5 43.5 47.5 38 47.5 L 10 47.5 C 4.5 47.5 0.5 43.5 0.5 38 L 0.5 14 C 0.5 8 4.5 4 10 4 Z';
+
+const defaultStats: StatItem[] = [
+  { value: '98%', labelTop: 'Satisfacción', labelBottom: 'de clientes' },
+  { value: '50+', labelTop: 'Espacios', labelBottom: 'limpiados' },
+  { value: '2+', labelTop: 'Años de', labelBottom: 'experiencia' },
+];
+
+const {
+  eyebrow = '03 // POR QUÉ ELEGIRNOS',
+  title = 'Un servicio con el mismo nivel de control que exigís vos',
+  stats = defaultStats,
+} = Astro.props;
+---
+
+<section id="valor" class="relative min-h-screen bg-bg-claro py-14 lg:py-20 flex items-center overflow-visible">
+  <!-- Decorative bubbles -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <Bubble size={300} top={-8} left={-6} blur={65} opacity={0.45} tone="light" duration={6} delay={0} />
+    <Bubble size={200} top={75} left={88} blur={55} opacity={0.4} tone="gray" duration={5.5} delay={1.2} />
+  </div>
+
+  <div class="container-page relative w-full">
+    <!-- Section header -->
+    <div class="mb-10 lg:mb-12 text-center">
+      <p
+        data-reveal
+        class="font-display text-sm font-semibold uppercase tracking-[0.12em] text-lila-medio"
+        style="--reveal-delay: 0ms"
+      >
+        {eyebrow}
+      </p>
+      <h2
+        data-reveal
+        class="font-display mx-auto mt-3 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight text-indigo-texto sm:text-4xl lg:text-[2.75rem]"
+        style="--reveal-delay: 80ms"
+      >
+        {title}
+      </h2>
+    </div>
+
+    <!-- Feature cards grid: middle two cards shifted downwards on desktop -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 items-start">
+
+      <!-- Feature 1: QR + GPS (Lado izquierdo más alto, posición estándar) -->
+      <div
+        data-reveal
+        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
+        style="--reveal-delay: 150ms"
+      >
+        <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+          <svg
+            viewBox="0 0 48 48"
+            class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none"
+            fill="none"
+          >
+            <path d={rampLeftPath} fill="var(--color-lila-pastel)" />
+          </svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto h-7 w-7 text-violeta-osc"
+            aria-hidden="true"
+          >
+            <rect width="5" height="5" x="3" y="3" rx="1" />
+            <rect width="5" height="5" x="16" y="3" rx="1" />
+            <rect width="5" height="5" x="3" y="16" rx="1" />
+            <path d="M21 16h-3a2 2 0 0 0-2 2v3" />
+            <path d="M21 21v.01" />
+            <path d="M12 7v3a2 2 0 0 1-2 2H7" />
+            <path d="M3 12h.01" />
+            <path d="M12 3h.01" />
+            <path d="M12 16v.01" />
+            <path d="M16 12h1" />
+            <path d="M21 12v.01" />
+            <path d="M12 21v-1" />
+          </svg>
+        </span>
+        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+          Control de asistencia por QR y GPS
+        </h3>
+        <p class="text-center text-sm leading-relaxed text-texto-secundario">
+          Cada ingreso y salida del personal queda registrado con ubicación y horario. Vos podés pedir el reporte cuando quieras.
+        </p>
+      </div>
+
+      <!-- Feature 2: Personal propio (Lado izquierdo más alto, bajada en desktop) -->
+      <div
+        data-reveal
+        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:mt-8"
+        style="--reveal-delay: 230ms"
+      >
+        <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+          <svg
+            viewBox="0 0 48 48"
+            class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none"
+            fill="none"
+          >
+            <path d={rampLeftPath} fill="var(--color-lila-pastel)" />
+          </svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto h-7 w-7 text-violeta-osc"
+            aria-hidden="true"
+          >
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+            <circle cx="9" cy="7" r="4" />
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+          </svg>
+        </span>
+        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+          Personal propio, no tercerizado
+        </h3>
+        <p class="text-center text-sm leading-relaxed text-texto-secundario">
+          El equipo que limpia tu edificio es parte de AZ, no una subcontratación de último momento.
+        </p>
+      </div>
+
+      <!-- Feature 3: Protocolos (Lado derecho más alto, bajada en desktop) -->
+      <div
+        data-reveal
+        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:mt-8"
+        style="--reveal-delay: 310ms"
+      >
+        <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+          <svg
+            viewBox="0 0 48 48"
+            class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none"
+            fill="none"
+          >
+            <path d={rampRightPath} fill="var(--color-lila-pastel)" />
+          </svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto h-7 w-7 text-violeta-osc"
+            aria-hidden="true"
+          >
+            <rect width="7" height="7" x="3" y="3" rx="1" />
+            <rect width="7" height="7" x="14" y="3" rx="1" />
+            <rect width="7" height="7" x="14" y="14" rx="1" />
+            <rect width="7" height="7" x="3" y="14" rx="1" />
+          </svg>
+        </span>
+        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+          Protocolos adaptados por tipo de espacio
+        </h3>
+        <p class="text-center text-sm leading-relaxed text-texto-secundario">
+          Consorcio, oficina y clínica no se limpian igual — ajustamos frecuencia y protocolo según el tipo de espacio y sus normas.
+        </p>
+      </div>
+
+      <!-- Feature 4: Reportes (Lado derecho más alto, posición estándar) -->
+      <div
+        data-reveal
+        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
+        style="--reveal-delay: 390ms"
+      >
+        <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
+          <svg
+            viewBox="0 0 48 48"
+            class="absolute inset-0 h-full w-full transition-transform duration-200 group-hover:scale-105 motion-reduce:transform-none"
+            fill="none"
+          >
+            <path d={rampRightPath} fill="var(--color-lila-pastel)" />
+          </svg>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="absolute inset-0 m-auto h-7 w-7 text-violeta-osc"
+            aria-hidden="true"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+        </span>
+        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+          Reportes de gestión, no promesas verbales
+        </h3>
+        <p class="text-center text-sm leading-relaxed text-texto-secundario">
+          Podés pedir en cualquier momento el detalle de turnos cumplidos, con horarios reales.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- 3 Statistics Row below the cards -->
+    <div
+      data-reveal
+      style="--reveal-delay: 450ms"
+      class="mt-12 lg:mt-14 flex flex-wrap items-center justify-center gap-10 sm:gap-16 lg:gap-24"
+    >
+      {
+        stats.map((stat) => (
+          <div class="flex items-center gap-3.5">
+            <span class="font-display text-4xl font-bold tracking-tight text-indigo-texto sm:text-5xl">
+              {stat.value}
+            </span>
+            <span class="flex flex-col text-[11px] font-semibold uppercase tracking-wider text-texto-secundario leading-tight">
+              <span>{stat.labelTop}</span>
+              <span>{stat.labelBottom}</span>
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const revealTargets = document.querySelectorAll<HTMLElement>('#valor [data-reveal]');
+
+  if (revealTargets.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealTargets.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.12 },
+      );
+      revealTargets.forEach((el) => observer.observe(el));
+    }
+  }
+</script>

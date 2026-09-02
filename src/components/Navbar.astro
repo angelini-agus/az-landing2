@@ -1,0 +1,590 @@
+---
+// Floating navbar for AZ Limpieza — Freshify-style.
+// Logo on the left (outside the capsule), a solid centered pill with
+// icon links and vertical separators, and a discreet email contact on
+// the right. No primary CTA here: it lives in the hero (per client).
+
+interface Link {
+  href: string;
+  label: string;
+  icon: string; // lucide-style icon key
+}
+
+const links: Link[] = [
+  { href: '#quienes-somos', label: 'Nosotros', icon: 'users' },
+  { href: '#servicios', label: 'Servicios', icon: 'services' },
+  { href: '#el-problema', label: 'Te pasó?', icon: 'alert' },
+  { href: '#como-funciona', label: 'Funcionamiento', icon: 'steps' },
+  { href: '#faq', label: 'FAQ', icon: 'question' },
+];
+
+const clientLoginUrl = 'https://azserviciosdelimpieza.com/login';
+const contactHref = '#contacto';
+---
+
+<header
+  id="site-header"
+  class="group fixed inset-x-0 top-4 z-50 md:top-6"
+>
+  <div
+    class="container-page relative flex h-11 items-center justify-between transition-all duration-300 motion-reduce:transition-none"
+  >
+    <!-- Logo on mobile only (desktop has it integrated into the center capsule) -->
+    <a
+      href="/"
+      aria-label="AZ Limpieza — Inicio"
+      class="relative flex items-center gap-2.5 rounded-full lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio"
+    >
+      <img
+        src="/logo.png"
+        alt="Isologo AZ Limpieza"
+        width={32}
+        height={32}
+        class="h-7 w-7"
+      />
+    </a>
+
+    <!-- Centered unified capsule with macOS Dock magnification -->
+    <nav
+      data-dock-nav
+      aria-label="Principal"
+      class="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center rounded-2xl border border-lila-suave/40 bg-bg-claro py-2 px-3 shadow-[0_8px_20px_-3px_rgba(91,78,138,0.22),0_4px_8px_-2px_rgba(91,78,138,0.14)] transition-all duration-300 motion-reduce:transition-none group-data-[scrolled]:shadow-[0_12px_28px_-4px_rgba(91,78,138,0.3),0_6px_12px_-2px_rgba(91,78,138,0.2)] lg:flex gap-1.5"
+    >
+      <!-- Logo solo -->
+      <a
+        data-dock-item
+        href="/"
+        aria-label="AZ Limpieza — Inicio"
+        class="flex items-center justify-center rounded-xl p-1 will-change-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-lila-medio"
+      >
+        <img
+          src="/logo.png"
+          alt="Isologo AZ Limpieza"
+          width={28}
+          height={28}
+          class="h-7 w-7 pointer-events-none"
+        />
+      </a>
+
+      <span class="mx-0.5 h-4 w-px bg-lila-suave/40" aria-hidden="true"></span>
+
+      <!-- 5 Buttons in the center in exact requested order: Nosotros, Servicios, Te pasó?, Funcionamiento, FAQ -->
+      {
+        links.map((link) => (
+          <a
+            data-dock-item
+            href={link.href}
+            class="group/link relative flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-sm font-medium text-indigo-texto transition-colors duration-200 hover:text-lila-medio will-change-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio whitespace-nowrap"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4 text-lila-medio pointer-events-none shrink-0"
+              aria-hidden="true"
+            >
+              {link.icon === 'users' && (
+                <>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </>
+              )}
+              {link.icon === 'services' && (
+                <>
+                  <rect width="7" height="7" x="3" y="3" rx="1" />
+                  <rect width="7" height="7" x="14" y="3" rx="1" />
+                  <rect width="7" height="7" x="14" y="14" rx="1" />
+                  <rect width="7" height="7" x="3" y="14" rx="1" />
+                </>
+              )}
+              {link.icon === 'alert' && (
+                <>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </>
+              )}
+              {link.icon === 'steps' && (
+                <>
+                  <rect width="18" height="18" x="3" y="4" rx="2" />
+                  <path d="M16 2v4" />
+                  <path d="M8 2v4" />
+                  <path d="m9 16 2 2 4-4" />
+                </>
+              )}
+              {link.icon === 'question' && (
+                <>
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <path d="M12 17h.01" />
+                </>
+              )}
+            </svg>
+            <span class="pointer-events-none">{link.label}</span>
+          </a>
+        ))
+      }
+
+      <span class="mx-0.5 h-4 w-px bg-lila-suave/40" aria-hidden="true"></span>
+
+      <!-- Icono de contacto solo -->
+      <a
+        data-dock-item
+        href={contactHref}
+        aria-label="Escribinos por mail"
+        class="group/contact relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl will-change-transform focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio"
+      >
+        <svg
+          viewBox="0 0 48 48"
+          class="absolute inset-0 h-full w-full pointer-events-none"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M 10 4 L 38 0.5 C 43.5 0.5 47.5 4.5 47.5 10 L 47.5 38 C 47.5 43.5 43.5 47.5 38 47.5 L 10 47.5 C 4.5 47.5 0.5 43.5 0.5 38 L 0.5 14 C 0.5 8 4.5 4 10 4 Z"
+            fill="var(--color-lila-pastel)"
+          />
+        </svg>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="relative z-10 h-4 w-4 text-violeta-osc transition-colors duration-200 group-hover/contact:text-indigo-texto pointer-events-none"
+          aria-hidden="true"
+        >
+          <rect width="20" height="16" x="2" y="4" rx="2" />
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+        </svg>
+      </a>
+    </nav>
+
+    <!-- Mobile: hamburger toggle (isologo stays on the left) -->
+    <button
+      id="nav-toggle"
+      type="button"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      aria-label="Abrir menú"
+      class="relative grid h-11 w-11 place-items-center rounded-full bg-lila-pastel focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio lg:hidden"
+    >
+      <span class="absolute left-1/2 top-[38%] h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-texto transition-all duration-[250ms] motion-reduce:transition-none group-data-[open]:top-1/2 group-data-[open]:rotate-45" />
+      <span class="absolute left-1/2 top-1/2 h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-texto transition-opacity duration-[250ms] motion-reduce:transition-none group-data-[open]:opacity-0" />
+      <span class="absolute left-1/2 top-[62%] h-0.5 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-texto transition-all duration-[250ms] motion-reduce:transition-none group-data-[open]:top-1/2 group-data-[open]:-rotate-45" />
+    </button>
+  </div>
+
+  <!-- Mobile overlay menu -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 -z-10 bg-bg-claro/95 opacity-0 backdrop-blur-lg transition-opacity duration-300 motion-reduce:transition-none group-data-[open]:opacity-100 invisible group-data-[open]:visible"
+  >
+    <div class="flex h-full flex-col items-center justify-center gap-6 px-8">
+      {
+        links.map((link, index) => (
+          <a
+            href={link.href}
+            style={`--i: ${index}`}
+            class="flex translate-y-3 items-center gap-3 text-2xl font-semibold text-indigo-texto opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-sm"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-5 w-5 text-lila-medio"
+              aria-hidden="true"
+            >
+              {link.icon === 'users' && (
+                <>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </>
+              )}
+              {link.icon === 'services' && (
+                <>
+                  <rect width="7" height="7" x="3" y="3" rx="1" />
+                  <rect width="7" height="7" x="14" y="3" rx="1" />
+                  <rect width="7" height="7" x="14" y="14" rx="1" />
+                  <rect width="7" height="7" x="3" y="14" rx="1" />
+                </>
+              )}
+              {link.icon === 'alert' && (
+                <>
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </>
+              )}
+              {link.icon === 'steps' && (
+                <>
+                  <rect width="18" height="18" x="3" y="4" rx="2" />
+                  <path d="M16 2v4" />
+                  <path d="M8 2v4" />
+                  <path d="m9 16 2 2 4-4" />
+                </>
+              )}
+              {link.icon === 'question' && (
+                <>
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                  <path d="M12 17h.01" />
+                </>
+              )}
+            </svg>
+            {link.label}
+          </a>
+        ))
+      }
+
+      <div
+        style="--i: 3"
+        class="w-full max-w-xs translate-y-3 opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
+      >
+        <a
+          href={contactHref}
+          class="group isolate relative flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-semibold text-violeta-osc transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio"
+        >
+          <svg
+            class="pointer-events-none absolute inset-0 z-0 h-full w-full group-hover:scale-[1.02] motion-reduce:transform-none"
+            viewBox="0 0 260 60"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M 16 6 L 244 0 C 253 0 260 7 260 16 L 260 44 C 260 53 253 60 244 60 L 16 60 C 7 60 0 53 0 44 L 0 22 C 0 13 7 6 16 6 Z"
+              fill="var(--color-lila-pastel)"
+              stroke="var(--color-lila-suave)"
+              stroke-width="1.5"
+            />
+          </svg>
+          <span class="relative z-10 flex items-center gap-2">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="h-4 w-4 text-violeta-osc"
+              aria-hidden="true"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            Escribinos
+          </span>
+        </a>
+        <a
+          href={clientLoginUrl}
+          class="mt-3 block text-center text-sm text-violeta-osc focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-sm"
+        >
+          Institucional
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('#site-header')!;
+  const toggle = document.querySelector<HTMLButtonElement>('#nav-toggle')!;
+  const overlay = document.querySelector<HTMLElement>('#mobile-menu')!;
+  const menuLinks = overlay.querySelectorAll('a');
+  const desktopQuery = window.matchMedia('(min-width: 1024px)');
+
+  const setOpen = (open: boolean) => {
+    header.toggleAttribute('data-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    document.body.classList.toggle('overflow-hidden', open);
+    const lenis = (window as any).lenis;
+    if (lenis) {
+      if (open) lenis.stop();
+      else lenis.start();
+    }
+  };
+
+  toggle.addEventListener('click', () => {
+    setOpen(!header.hasAttribute('data-open'));
+  });
+
+  menuLinks.forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
+  });
+
+  overlay.addEventListener('click', (event) => {
+    if (event.target === overlay) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setOpen(false);
+  });
+
+  desktopQuery.addEventListener('change', () => {
+    if (desktopQuery.matches) setOpen(false);
+  });
+
+  const updateScrollState = () => {
+    header.toggleAttribute('data-scrolled', window.scrollY > 20);
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (window.requestAnimationFrame) {
+        window.requestAnimationFrame(updateScrollState);
+      } else {
+        updateScrollState();
+      }
+    },
+    { passive: true },
+  );
+
+  updateScrollState();
+
+  // Fluid smooth scrolling for navigation buttons and internal anchor links
+  const smoothScrollTo = (targetY: number, duration = 850) => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.scrollTo({ top: targetY });
+      return;
+    }
+
+    const startY = window.scrollY;
+    const distance = targetY - startY;
+    if (Math.abs(distance) < 2) return;
+
+    let startTime: number | null = null;
+    let isCancelled = false;
+
+    // Cubic ease-in-out curve for a natural, luxurious acceleration and deceleration
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    const cancelOnUserInteraction = () => {
+      isCancelled = true;
+      removeListeners();
+    };
+
+    const removeListeners = () => {
+      window.removeEventListener('wheel', cancelOnUserInteraction);
+      window.removeEventListener('touchstart', cancelOnUserInteraction);
+    };
+
+    window.addEventListener('wheel', cancelOnUserInteraction, { passive: true, once: true });
+    window.addEventListener('touchstart', cancelOnUserInteraction, { passive: true, once: true });
+
+    const step = (timestamp: number) => {
+      if (isCancelled) return;
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, startY + distance * ease);
+
+      if (progress < 1) {
+        window.requestAnimationFrame(step);
+      } else {
+        removeListeners();
+      }
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
+  // Header offset: 88px leaves elegant breathing space below the floating navbar
+  const headerOffset = 88;
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (event) => {
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#' || href.length <= 1) return;
+
+      const targetEl = document.querySelector<HTMLElement>(href);
+      if (targetEl) {
+        event.preventDefault();
+        setOpen(false);
+
+        const lenis = (window as any).lenis;
+        if (lenis) {
+          lenis.scrollTo(targetEl, {
+            offset: -headerOffset,
+            duration: 1.4,
+          });
+        } else {
+          const targetY = Math.max(
+            0,
+            targetEl.getBoundingClientRect().top + window.scrollY - headerOffset,
+          );
+          smoothScrollTo(targetY, 1100);
+        }
+        history.pushState(null, '', href);
+      }
+    });
+  });
+
+  // Authentic macOS Dock magnification animation with true neighbor propagation
+  const dock = document.querySelector<HTMLElement>('[data-dock-nav]');
+  if (dock && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const dockItems = Array.from(dock.querySelectorAll<HTMLElement>('[data-dock-item]'));
+    const minScale = 1.0;
+    const maxScale = 1.22;
+    const effectDistance = 240; // Span wide enough to smoothly magnify adjacent buttons
+
+    let mouseX: number | null = null;
+    let currentScales = dockItems.map(() => minScale);
+    let currentXs = dockItems.map(() => 0);
+    let currentYs = dockItems.map(() => 0);
+    let rafId: number | null = null;
+
+    // Cache unscaled centers and widths
+    let restingCenters: number[] = [];
+    let itemWidths: number[] = [];
+
+    const measureItems = () => {
+      restingCenters = dockItems.map((item) => item.offsetLeft + item.offsetWidth / 2);
+      itemWidths = dockItems.map((item) => item.offsetWidth);
+    };
+
+    measureItems();
+    window.addEventListener('resize', measureItems, { passive: true });
+
+    const calculateTargets = (mX: number | null) => {
+      if (mX === null) {
+        return {
+          scales: dockItems.map(() => minScale),
+          shiftXs: dockItems.map(() => 0),
+          shiftYs: dockItems.map(() => 0),
+        };
+      }
+
+      // 1. Calculate cosine-bell curve scales for all items
+      const scales = dockItems.map((_, i) => {
+        const center = restingCenters[i];
+        const halfWidth = itemWidths[i] / 2;
+        let dist = Math.abs(mX - center);
+
+        // Smooth peak when cursor is directly over this item
+        if (dist < halfWidth) {
+          dist = dist * 0.35;
+        }
+
+        if (dist >= effectDistance) {
+          return minScale;
+        }
+
+        // Authentic macOS cosine magnification bell curve
+        const cosVal = Math.cos((dist / effectDistance) * (Math.PI / 2));
+        const bellFactor = cosVal * cosVal;
+        return minScale + bellFactor * (maxScale - minScale);
+      });
+
+      // 2. Horizontal displacement: push neighbors apart so enlarged items never collide
+      const extraWidths = dockItems.map((_, i) => itemWidths[i] * (scales[i] - 1.0));
+
+      let closestIdx = 0;
+      let minD = Infinity;
+      dockItems.forEach((_, i) => {
+        const d = Math.abs(mX - restingCenters[i]);
+        if (d < minD) {
+          minD = d;
+          closestIdx = i;
+        }
+      });
+
+      const shiftXs = dockItems.map((_, i) => {
+        if (i < closestIdx) {
+          let shift = 0;
+          for (let j = i; j <= closestIdx; j++) {
+            shift -= extraWidths[j] * 0.4;
+          }
+          return shift;
+        } else if (i > closestIdx) {
+          let shift = 0;
+          for (let j = closestIdx; j <= i; j++) {
+            shift += extraWidths[j] * 0.4;
+          }
+          return shift;
+        }
+        return 0;
+      });
+
+      // 3. Vertical elevation following the scale factor
+      const shiftYs = scales.map((s) => -(s - 1.0) * 16);
+
+      return { scales, shiftXs, shiftYs };
+    };
+
+    const animateDock = () => {
+      const { scales: targetScales, shiftXs: targetXs, shiftYs: targetYs } = calculateTargets(mouseX);
+      const lerp = mouseX !== null ? 0.22 : 0.12;
+      let needsUpdate = false;
+
+      dockItems.forEach((item, i) => {
+        const dScale = targetScales[i] - currentScales[i];
+        const dX = targetXs[i] - currentXs[i];
+        const dY = targetYs[i] - currentYs[i];
+
+        currentScales[i] += dScale * lerp;
+        currentXs[i] += dX * lerp;
+        currentYs[i] += dY * lerp;
+
+        if (Math.abs(dScale) > 0.001 || Math.abs(dX) > 0.1 || Math.abs(dY) > 0.1) {
+          needsUpdate = true;
+        }
+
+        item.style.transform = `translate3d(${currentXs[i].toFixed(2)}px, ${currentYs[i].toFixed(2)}px, 0) scale(${currentScales[i].toFixed(4)})`;
+        item.style.transformOrigin = 'center center';
+      });
+
+      if (needsUpdate || mouseX !== null) {
+        rafId = requestAnimationFrame(animateDock);
+      } else {
+        rafId = null;
+      }
+    };
+
+    dock.addEventListener('mouseenter', () => {
+      measureItems();
+    });
+
+    dock.addEventListener('mousemove', (e) => {
+      const rect = dock.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      if (!rafId) {
+        rafId = requestAnimationFrame(animateDock);
+      }
+    });
+
+    dock.addEventListener('mouseleave', () => {
+      mouseX = null;
+      if (!rafId) {
+        rafId = requestAnimationFrame(animateDock);
+      }
+    });
+
+    // Tactile micro-bounce on click
+    dockItems.forEach((item) => {
+      item.addEventListener('click', () => {
+        item.style.transition = 'transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        item.style.transform = 'scale(0.92) translateY(-2px)';
+        setTimeout(() => {
+          item.style.transition = '';
+          if (!rafId) rafId = requestAnimationFrame(animateDock);
+        }, 180);
+      });
+    });
+  }
+</script>

@@ -1,0 +1,9 @@
+{
+  "name": "Tu Empresa",
+  "tagline": "Descripción breve",
+  "contact": {
+    "email": "contacto@ejemplo.com",
+    "phone": "+54 000 000-0000",
+    "whatsapp": "+54 000 000-0000"
+  }
+}

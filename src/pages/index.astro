@@ -1,0 +1,31 @@
+---
+// Landing page. Sections are composed one per prompt; Hero is the first one.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SocialProof from '../components/SocialProof.astro';
+import ProblemStatement from '../components/ProblemStatement.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+import ValueSection from '../components/ValueSection.astro';
+import HowItWorksSection from '../components/HowItWorksSection.astro';
+import FaqSection from '../components/FaqSection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import Footer from '../components/Footer.astro';
+
+const title = 'AZ Limpieza — Limpieza integral para consorcios, oficinas y clínicas';
+const description =
+  'Servicio de limpieza integral para consorcios, oficinas y clínicas. Equipo propio con asistencia controlada por QR y GPS, y un solo mail para resolverlo.';
+---
+
+<BaseLayout {title} {description}>
+  <main>
+    <Hero />
+    <SocialProof />
+    <ServicesSection />
+    <ProblemStatement />
+    <ValueSection />
+    <HowItWorksSection />
+    <FaqSection />
+    <ContactSection />
+  </main>
+  <Footer />
+</BaseLayout>

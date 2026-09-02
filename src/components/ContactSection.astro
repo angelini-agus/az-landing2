@@ -1,0 +1,345 @@
+---
+// ContactSection.astro — Final CTA & Contact Form section (#contacto).
+// Photo banner at top with glassmorphic contact card overlapping it, matching the visual reference.
+import Bubble from './ui/Bubble.astro';
+import CtaRampButton from './ui/CtaRampButton.astro';
+import ShaderBackground from './ui/ShaderBackground.astro';
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  eyebrow = '06 // CONTACTO',
+  title = 'Dejá de gestionar vos la limpieza',
+  subtitle = 'Escribinos y evaluamos tu caso — si encaja, seguimos por WhatsApp.',
+} = Astro.props;
+---
+
+<section
+  id="contacto"
+  class="relative min-h-[calc(100vh-5.5rem)] flex flex-col justify-center overflow-visible bg-bg-claro py-8 lg:py-12"
+>
+  <!-- Top Photo Banner (dynamic Simplex Noise WebGL background in violet palette) -->
+  <div class="relative mx-auto w-full px-2 sm:px-4 lg:px-6 pt-6 sm:pt-8 lg:pt-10">
+    <div
+      class="relative h-[384px] w-full overflow-hidden rounded-[2.5rem] bg-[#2B2640] shadow-xl sm:h-[456px] lg:h-[528px]"
+    >
+      <!-- Simplex Noise WebGL Canvas Background -->
+      <ShaderBackground class="absolute inset-0 z-0 h-full w-full" />
+
+      <!-- Floating decorative bubbles overlapping the banner edges -->
+      <div class="pointer-events-none absolute inset-0 z-10 overflow-hidden" aria-hidden="true">
+        <Bubble size={180} top={12} left={-4} blur={40} opacity={0.35} tone="light" duration={6} delay={0} />
+        <Bubble size={240} top={20} left={85} blur={50} opacity={0.3} tone="gray" duration={7} delay={1} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Glassmorphic Overlapping Contact Card -->
+  <div class="container-page relative -mt-[272px] sm:-mt-[332px] lg:-mt-[376px] z-10">
+    <div
+      data-reveal
+      class="relative mx-auto max-w-3xl rounded-[2.5rem] border border-white/80 bg-[#FAF8FE]/85 p-6 sm:p-10 lg:p-14 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-white"
+    >
+      <!-- Card header -->
+      <div class="mb-8 text-center sm:mb-10">
+        <p class="font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-lila-medio">
+          {eyebrow}
+        </p>
+        <h2 class="font-display mx-auto mt-3 max-w-xl text-2xl font-bold leading-[1.12] tracking-tight text-indigo-texto sm:text-3xl lg:text-4xl">
+          {title}
+        </h2>
+        <p class="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-texto-secundario sm:text-base">
+          {subtitle}
+        </p>
+      </div>
+
+      <!-- Zero-friction Contact Form (Email-first, no initial phone) -->
+      <form id="contact-form" class="space-y-4 sm:space-y-5">
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          <!-- Nombre -->
+          <div class="space-y-1.5">
+            <label for="nombre" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
+              Nombre y apellido *
+            </label>
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              required
+              placeholder="Tu nombre completo"
+              class="w-full rounded-2xl border border-lila-suave/50 bg-white/80 px-4 py-3.5 text-sm text-indigo-texto placeholder:text-texto-secundario/50 backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/60 focus:border-violeta-osc focus:bg-white focus:outline-none focus:ring-3 focus:ring-violeta-osc/15"
+            />
+          </div>
+
+          <!-- Email -->
+          <div class="space-y-1.5">
+            <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
+              Email de contacto *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              placeholder="tu@edificio-empresa.com"
+              class="w-full rounded-2xl border border-lila-suave/50 bg-white/80 px-4 py-3.5 text-sm text-indigo-texto placeholder:text-texto-secundario/50 backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/60 focus:border-violeta-osc focus:bg-white focus:outline-none focus:ring-3 focus:ring-violeta-osc/15"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
+          <!-- Institución / Edificio -->
+          <div class="space-y-1.5">
+            <label for="institucion" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
+              Institución o edificio *
+            </label>
+            <input
+              type="text"
+              id="institucion"
+              name="institucion"
+              required
+              placeholder="Ej: Consorcio Av. Libertador 1400"
+              class="w-full rounded-2xl border border-lila-suave/50 bg-white/80 px-4 py-3.5 text-sm text-indigo-texto placeholder:text-texto-secundario/50 backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/60 focus:border-violeta-osc focus:bg-white focus:outline-none focus:ring-3 focus:ring-violeta-osc/15"
+            />
+          </div>
+
+          <!-- Tipo de espacio (Custom Dropdown) -->
+          <div class="space-y-1.5">
+            <label id="tipo-espacio-label" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
+              Tipo de espacio *
+            </label>
+            <div class="custom-select relative" id="custom-tipo-espacio">
+              <!-- Hidden input for standard form serialization -->
+              <input type="hidden" id="tipo-espacio-input" name="tipo-espacio" required value="" />
+
+              <!-- Trigger Button -->
+              <button
+                type="button"
+                id="tipo-espacio-trigger"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-labelledby="tipo-espacio-label tipo-espacio-trigger"
+                class="flex h-[49px] w-full items-center justify-between rounded-2xl border border-lila-suave/50 bg-white/80 px-4 text-sm text-texto-secundario/70 backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/60 focus:border-violeta-osc focus:bg-white focus:outline-none focus:ring-3 focus:ring-violeta-osc/15 cursor-pointer"
+              >
+                <span id="tipo-espacio-selected" class="truncate">Seleccioná el tipo de espacio</span>
+                <span class="grid h-6 w-6 shrink-0 place-items-center rounded-lg text-texto-secundario transition-transform duration-200" id="tipo-espacio-arrow-box">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 transition-transform duration-200" id="tipo-espacio-arrow" aria-hidden="true">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+
+              <!-- Dropdown Menu Panel -->
+              <ul
+                id="tipo-espacio-options"
+                role="listbox"
+                aria-labelledby="tipo-espacio-label"
+                class="pointer-events-none absolute left-0 top-[calc(100%+0.5rem)] z-50 hidden w-full origin-top transform-gpu overflow-hidden rounded-2xl border border-lila-suave/50 bg-[#FAF8FE]/95 p-1.5 opacity-0 shadow-xl backdrop-blur-xl transition-all duration-200 space-y-1"
+              >
+                <li
+                  role="option"
+                  data-value="consorcio"
+                  aria-selected="false"
+                  class="custom-option group/opt flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm text-indigo-texto transition-colors duration-150 hover:bg-violeta-osc hover:text-white cursor-pointer"
+                >
+                  <span class="flex items-center gap-2.5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-lila-medio transition-colors group-hover/opt:text-white" aria-hidden="true">
+                      <rect width="16" height="20" x="4" y="2" rx="2" />
+                      <path d="M9 22v-4h6v4" />
+                      <path d="M8 6h.01" />
+                      <path d="M16 6h.01" />
+                      <path d="M8 10h.01" />
+                      <path d="M16 10h.01" />
+                      <path d="M8 14h.01" />
+                      <path d="M16 14h.01" />
+                    </svg>
+                    <span>Consorcio / Edificio residencial</span>
+                  </span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-icon h-4 w-4 opacity-0 text-violeta-osc group-hover/opt:text-white transition-opacity" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </li>
+
+                <li
+                  role="option"
+                  data-value="oficina"
+                  aria-selected="false"
+                  class="custom-option group/opt flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm text-indigo-texto transition-colors duration-150 hover:bg-violeta-osc hover:text-white cursor-pointer"
+                >
+                  <span class="flex items-center gap-2.5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-lila-medio transition-colors group-hover/opt:text-white" aria-hidden="true">
+                      <rect width="20" height="14" x="2" y="7" rx="2" />
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                    </svg>
+                    <span>Oficinas / Sede corporativa</span>
+                  </span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-icon h-4 w-4 opacity-0 text-violeta-osc group-hover/opt:text-white transition-opacity" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </li>
+
+                <li
+                  role="option"
+                  data-value="clinica"
+                  aria-selected="false"
+                  class="custom-option group/opt flex items-center justify-between rounded-xl px-3.5 py-2.5 text-sm text-indigo-texto transition-colors duration-150 hover:bg-violeta-osc hover:text-white cursor-pointer"
+                >
+                  <span class="flex items-center gap-2.5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 text-lila-medio transition-colors group-hover/opt:text-white" aria-hidden="true">
+                      <path d="M12 6v12" />
+                      <path d="M6 12h12" />
+                    </svg>
+                    <span>Clínica / Centro médico</span>
+                  </span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-icon h-4 w-4 opacity-0 text-violeta-osc group-hover/opt:text-white transition-opacity" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consulta / Mensaje opcional -->
+        <div class="space-y-1.5">
+          <label for="mensaje" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
+            Detalles adicionales (opcional)
+          </label>
+          <textarea
+            id="mensaje"
+            name="mensaje"
+            rows="3"
+            placeholder="Contanos qué turnos, días o requerimientos especiales tienen..."
+            class="w-full rounded-2xl border border-lila-suave/50 bg-white/80 px-4 py-3.5 text-sm text-indigo-texto placeholder:text-texto-secundario/50 backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/60 focus:border-violeta-osc focus:bg-white focus:outline-none focus:ring-3 focus:ring-violeta-osc/15 resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Bottom Row: CTA Button + Privacy disclaimer -->
+        <div class="flex flex-col gap-5 pt-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <CtaRampButton
+              type="submit"
+              text="Pedí tu diagnóstico por mail"
+              variant="primary"
+              rampDirection="left"
+              class="w-full sm:w-auto"
+            />
+          </div>
+
+          <p class="text-[11px] font-medium uppercase tracking-wider text-texto-secundario/75 sm:max-w-[240px] sm:text-right leading-tight">
+            Evaluamos tu caso de forma confidencial y sin costo inicial.
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Prevent default submission on form
+  document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+  });
+
+  // Custom Dropdown for Tipo de Espacio
+  const selectContainer = document.getElementById('custom-tipo-espacio');
+  const trigger = document.getElementById('tipo-espacio-trigger');
+  const optionsList = document.getElementById('tipo-espacio-options');
+  const arrow = document.getElementById('tipo-espacio-arrow');
+  const selectedSpan = document.getElementById('tipo-espacio-selected');
+  const hiddenInput = document.getElementById('tipo-espacio-input') as HTMLInputElement | null;
+  const options = selectContainer?.querySelectorAll<HTMLLIElement>('.custom-option');
+
+  function openSelect() {
+    optionsList?.classList.remove('hidden', 'pointer-events-none', 'opacity-0');
+    optionsList?.classList.add('opacity-100');
+    trigger?.setAttribute('aria-expanded', 'true');
+    arrow?.classList.add('rotate-180');
+  }
+
+  function closeSelect() {
+    optionsList?.classList.add('opacity-0', 'pointer-events-none');
+    trigger?.setAttribute('aria-expanded', 'false');
+    arrow?.classList.remove('rotate-180');
+    setTimeout(() => {
+      if (trigger?.getAttribute('aria-expanded') === 'false') {
+        optionsList?.classList.add('hidden');
+      }
+    }, 200);
+  }
+
+  trigger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+    if (isExpanded) {
+      closeSelect();
+    } else {
+      openSelect();
+    }
+  });
+
+  options?.forEach((opt) => {
+    opt.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const val = opt.getAttribute('data-value') || '';
+      const labelText = opt.querySelector('span span')?.textContent || '';
+
+      if (hiddenInput) hiddenInput.value = val;
+      if (selectedSpan) {
+        selectedSpan.textContent = labelText;
+        selectedSpan.classList.remove('text-texto-secundario/70');
+        selectedSpan.classList.add('text-indigo-texto', 'font-medium');
+      }
+
+      options.forEach((o) => {
+        o.setAttribute('aria-selected', 'false');
+        o.querySelector('.check-icon')?.classList.add('opacity-0');
+        o.classList.remove('bg-lila-pastel/60');
+      });
+
+      opt.setAttribute('aria-selected', 'true');
+      opt.querySelector('.check-icon')?.classList.remove('opacity-0');
+      opt.classList.add('bg-lila-pastel/60');
+
+      closeSelect();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!selectContainer?.contains(e.target as Node)) {
+      closeSelect();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeSelect();
+    }
+  });
+
+  // Reveal IntersectionObserver
+  const revealTargets = document.querySelectorAll<HTMLElement>('#contacto [data-reveal]');
+
+  if (revealTargets.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealTargets.forEach((el) => el.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.1 },
+      );
+      revealTargets.forEach((el) => observer.observe(el));
+    }
+  }
+</script>

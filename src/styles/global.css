@@ -1,0 +1,234 @@
+@import "tailwindcss";
+@import "@fontsource-variable/parkinsans";
+@import "@fontsource-variable/inter-tight";
+
+/*
+ * Design tokens — AZ Servicios de Limpieza brand palette.
+ * Updated palette: single light background, all purple/lilac accents,
+ * with turquoise exclusively reserved for the primary CTA button.
+ */
+@theme {
+  /* Fondo único de toda la página */
+  --color-bg-claro: #EFEAF9;
+
+  /* Violeta / lila — usado en TODO excepto el CTA principal */
+  --color-violeta-osc: #5B4E8A;
+  --color-lila-medio: #8B7BC7;
+  --color-lila-suave: #C4B8E8;
+  --color-lila-pastel: #E9E2F7;
+
+  /* Texto */
+  --color-indigo-texto: #2B2640;
+  --color-texto-secundario: #6B6580;
+
+  /* Bubbles decorativas (neutras, nunca tintadas) */
+  --color-burbuja-blanca: rgba(255, 255, 255, 0.5);
+  --color-burbuja-gris: rgba(120, 120, 130, 0.08);
+
+  /* CTA — ÚNICA excepción a la regla de "todo violeta" */
+  --color-turq-cta: #3FA88F;
+  --color-turq-cta-hover: #8FD4C2;
+
+  --font-sans: "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Parkinsans Variable", "Inter Tight Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 5.5rem;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: var(--color-indigo-texto);
+    background: var(--color-bg-claro);
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html,
+    html:not(.lenis) {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Soft vertical float used by decorative bubbles. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-24px);
+  }
+}
+
+@layer components {
+  /* Single page gutter: every section uses this container so the
+     horizontal rhythm stays consistent across the whole site. */
+  .container-page {
+    @apply mx-auto max-w-[1440px] px-4 lg:px-10;
+  }
+
+  /* Freshify-style asymmetric corner ("ramp"): customizable via --ramp-* custom properties. */
+  .shape-ramp {
+    border-radius: var(--ramp-tl, 2.25rem) var(--ramp-tr, 0.75rem)
+      var(--ramp-br, 0.75rem) var(--ramp-bl, 0.75rem);
+  }
+
+  /* Decorative circle. Position, size and palette are driven by CSS
+     custom properties set inline by the Bubble component. */
+  .bubble {
+    position: absolute;
+    border-radius: 9999px;
+    pointer-events: none;
+    width: var(--size);
+    height: var(--size);
+    top: var(--top);
+    left: var(--left);
+    background: var(--bubble-bg, var(--color-burbuja-blanca));
+    filter: blur(var(--blur, 0px));
+    animation: float var(--duration, 5s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+
+  /* Base button: consistent shape, transition and keyboard focus ring. */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease,
+      filter 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--color-turq-cta);
+    outline-offset: 2px;
+  }
+
+  /* Feedback on pointer-down (Apple "Response"): instant press feel. */
+  .btn:active {
+    transform: scale(0.97);
+    transition: transform 100ms ease-out;
+  }
+
+  /* Primary CTA (única excepción turquesa). */
+  .btn-primary {
+    background: var(--color-turq-cta);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--color-turq-cta-hover);
+    color: var(--color-indigo-texto);
+    box-shadow: 0 8px 20px rgba(63, 168, 143, 0.35);
+  }
+
+  /* Secondary: solid violeta-osc on light bg, white text. */
+  .btn-secondary {
+    background: var(--color-violeta-osc);
+    color: #fff;
+  }
+
+  .btn-secondary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 8px 20px rgba(91, 78, 138, 0.3);
+  }
+
+  /* Secondary inverted: for use over violeta-osc sections. */
+  .btn-secondary-inverted {
+    background: #fff;
+    color: var(--color-violeta-osc);
+  }
+
+  .btn-secondary-inverted:hover {
+    background: var(--color-lila-pastel);
+  }
+
+  /* Ghost: text-only with an animated underline on hover. */
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-indigo-texto);
+    position: relative;
+  }
+
+  .btn-ghost::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.35em;
+    height: 2px;
+    width: 100%;
+    background: var(--color-lila-medio);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .btn-ghost:hover {
+    color: var(--color-lila-medio);
+  }
+
+  .btn-ghost:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Reveal-on-scroll: fade + slide-up (critically damped feel), enabled
+   via IntersectionObserver in components using [data-reveal]. */
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-reveal] {
+  opacity: 0;
+}
+
+[data-reveal].is-visible {
+  animation: reveal-in 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* Respect users who prefer reduced motion: no float animation. */
+@media (prefers-reduced-motion: reduce) {
+  .bubble {
+    animation: none;
+  }
+
+  /* Reduced motion: short cross-fade instead of slide-up.
+     Match the Apple guidance (opacity only). */
+  [data-reveal] {
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  [data-reveal].is-visible {
+    opacity: 1;
+    animation: none;
+  }
+}

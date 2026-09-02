@@ -1,0 +1,44 @@
+---
+// Decorative background circle.
+// Used purely for visual flair; must never receive focus or be announced
+// by screen readers, hence aria-hidden. No brand accent colors here —
+// bubbles are subtle white/gray shapes with a soft blur.
+interface Props {
+  /** Circle diameter in px. */
+  size: number;
+  /** Vertical position as a percentage of the parent container. */
+  top: number;
+  /** Horizontal position as a percentage of the parent container. */
+  left: number;
+  /** Optional blur radius in px (default 0). */
+  blur?: number;
+  /** Optional element opacity (default 1). */
+  opacity?: number;
+  /** Bubble tint: 'light' (white) or 'gray' (neutral gray). */
+  tone?: 'light' | 'gray';
+  /** Float animation duration in seconds (default random 4–6). */
+  duration?: number;
+  /** Animation delay in seconds (default random 0–2). */
+  delay?: number;
+}
+
+const {
+  size,
+  top,
+  left,
+  blur = 0,
+  opacity = 1,
+  tone = 'light',
+  duration = Math.random() * 2 + 4, // random 4–6, computed once at build time
+  delay = Math.random() * 2, // random 0–2, computed once at build time
+} = Astro.props;
+
+const bubbleBg =
+  tone === 'gray' ? 'var(--color-burbuja-gris)' : 'var(--color-burbuja-blanca)';
+---
+
+<span
+  aria-hidden="true"
+  class="bubble"
+  style={`--size: ${size}px; --top: ${top}%; --left: ${left}%; --blur: ${blur}px; --duration: ${duration}s; --delay: ${delay}s; --bubble-bg: ${bubbleBg}; opacity: ${opacity};`}
+></span>

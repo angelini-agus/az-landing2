@@ -1,0 +1,140 @@
+---
+// ProblemStatement.astro — "El Problema": Real photo on the left with ramp top edge sloping down
+// towards the middle; on the right: eyebrow, headline, body paragraph, and the 3 pain points in 3 rows.
+import { Image } from 'astro:assets';
+import notHeroImg from '../assets/notHero.jpg';
+import Bubble from './ui/Bubble.astro';
+
+const bullets = [
+  {
+    category: 'Consorcios',
+    text: 'Sos administrador de consorcio y no tenés forma de comprobar si el turno se cumplió.',
+  },
+  {
+    category: 'Oficinas',
+    text: "Gestionás una oficina y la limpieza depende de que 'alguien se acuerde' de avisar si faltó personal.",
+  },
+  {
+    category: 'Clínicas',
+    text: 'Dirigís una clínica y necesitás protocolos de higiene documentados, no una promesa verbal.',
+  },
+];
+---
+
+<section id="el-problema" class="relative overflow-visible bg-bg-claro py-16 lg:py-24">
+  <!-- Subtle decorative bubbles (overflow-hidden to avoid horizontal scroll) -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+    <Bubble size={240} top={10} left={-4} blur={50} opacity={0.35} tone="light" duration={6} delay={0} />
+    <Bubble size={180} top={80} left={92} blur={45} opacity={0.3} tone="gray" duration={5.5} delay={1} />
+  </div>
+
+  <!-- SVG ClipPath definition for photo ramp (left side higher, sloping down towards right/center) -->
+  <svg class="pointer-events-none absolute h-0 w-0" aria-hidden="true">
+    <defs>
+      <clipPath id="problem-ramp-clip" clipPathUnits="objectBoundingBox">
+        <path
+          d="M 0.08 0 L 0.92 0.055 C 0.965 0.058 1 0.09 1 0.135 L 1 0.92 C 1 0.965 0.965 1 0.92 1 L 0.08 1 C 0.035 1 0 0.965 0 0.92 L 0 0.08 C 0 0.035 0.035 0 0.08 0 Z"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+
+  <div class="container-page relative z-10">
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-12 xl:gap-16">
+      <!-- Left Column: Photo with ramp top edge sloping down towards center (no review overlays) -->
+      <div data-reveal class="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
+        <div class="relative drop-shadow-[0_20px_35px_rgba(91,78,138,0.18)] transition-transform duration-300 hover:scale-[1.01]">
+          <div
+            class="relative overflow-hidden bg-lila-pastel"
+            style="clip-path: url(#problem-ramp-clip);"
+          >
+            <Image
+              src={notHeroImg}
+              alt="Personal propio de AZ Servicios de Limpieza trabajando en instalaciones de un edificio"
+              widths={[400, 600, 800]}
+              sizes="(min-width: 1024px) 480px, 100vw"
+              class="h-[400px] w-full object-cover object-[center_20%] sm:h-[480px] lg:h-[540px] transition-transform duration-500 hover:scale-105"
+            />
+            <!-- Subtle gradient vignette for depth -->
+            <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-indigo-texto/25 via-transparent to-transparent"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Eyebrow + Headline + Paragraph + 3 Rows -->
+      <div class="space-y-6 lg:col-span-7">
+        <!-- Header -->
+        <div data-reveal class="space-y-3">
+          <p class="font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-lila-medio">
+            03 // EL PROBLEMA
+          </p>
+          <h2 class="font-display text-3xl font-bold leading-[1.1] tracking-tight text-indigo-texto sm:text-4xl lg:text-[2.6rem]">
+            Contratás una empresa de limpieza y terminás gestionándola vos.
+          </h2>
+          <p class="text-sm leading-relaxed text-texto-secundario sm:text-base lg:text-[1.05rem]">
+            El personal falta y te enterás por un vecino que se quejó. No sabés si limpiaron los baños del segundo piso o solo pasaron por el hall. Cambiás de proveedor cada seis meses porque el anterior "dejó de responder". Y en una clínica, eso no es solo una queja — es un problema de bioseguridad.
+          </p>
+        </div>
+
+        <!-- 3 Rows: Niche filter bullets -->
+        <div class="space-y-3 pt-2">
+          {bullets.map((bullet, index) => (
+            <div
+              data-reveal
+              data-reveal-delay={(index + 1) * 90}
+              class="group flex items-start gap-3.5 rounded-2xl border border-lila-suave/50 bg-white/75 p-4 shadow-xs backdrop-blur-xs transition-all duration-200 hover:border-lila-medio/70 hover:bg-white hover:shadow-md"
+            >
+              <span class="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-lila-pastel text-violeta-osc transition-transform duration-200 group-hover:scale-105">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+              </span>
+              <div class="space-y-0.5">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-lila-medio">
+                  {bullet.category}
+                </span>
+                <p class="text-xs sm:text-sm font-medium leading-relaxed text-indigo-texto">
+                  {bullet.text}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const revealTargets = document.querySelectorAll<HTMLElement>('#el-problema [data-reveal]');
+
+  if (revealTargets.length) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      revealTargets.forEach((target) => target.classList.add('is-visible'));
+    } else {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15 },
+      );
+      revealTargets.forEach((target) => observer.observe(target));
+    }
+  }
+</script>

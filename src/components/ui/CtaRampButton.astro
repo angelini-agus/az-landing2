@@ -1,0 +1,160 @@
+
+---
+// Reusable CTA button featuring an asymmetric "ramp" geometry inspired by Freshify.
+// The base is 100% flat, the top edge slopes down (~1.5°), and all four corners
+// are smoothly rounded via an SVG background with preserveAspectRatio="none".
+// Renders an <a> when `href` is provided, otherwise a <button>.
+interface Props {
+  /** Target URL. When provided, renders an <a> link. */
+  href?: string;
+  /** Button label fallback when no slot content is passed. */
+  text?: string;
+  /** Visual theme: 'primary' (AZ turq-medio) or 'yellow' (Freshify replica). */
+  variant?: 'primary' | 'yellow';
+  /** Slope direction: 'left' (left taller) or 'right' (right taller). Default: 'left'. */
+  rampDirection?: 'left' | 'right';
+  /** Whether to render the trailing arrow icon. Default: true. */
+  showArrow?: boolean;
+  /** Additional CSS classes merged into the container. */
+  class?: string;
+  /** Native button type when no `href` is specified. */
+  type?: 'button' | 'submit';
+}
+
+const {
+  href,
+  text = 'Pedí tu diagnóstico por mail',
+  variant = 'primary',
+  rampDirection = 'left',
+  showArrow = true,
+  class: className = '',
+  type = 'button',
+} = Astro.props;
+
+const isYellow = variant === 'yellow';
+const variantClass = isYellow ? 'cta-ramp-svg--yellow' : 'cta-ramp-svg--primary';
+
+const leftPath =
+  'M 16 0 L 244 6 C 253 6.2 260 13 260 22 L 260 44 C 260 53 253 60 244 60 L 16 60 C 7 60 0 53 0 44 L 0 16 C 0 7 7 0 16 0 Z';
+const rightPath =
+  'M 16 6 L 244 0 C 253 0 260 7 260 16 L 260 44 C 260 53 253 60 244 60 L 16 60 C 7 60 0 53 0 44 L 0 22 C 0 13 7 6 16 6 Z';
+const pathD = rampDirection === 'right' ? rightPath : leftPath;
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class:list={[
+        'group isolate relative inline-flex h-16 items-center justify-center px-7 text-sm font-semibold tracking-tight transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4',
+        isYellow
+          ? 'text-neutral-900 focus-visible:outline-[#F5D300]'
+          : 'text-white group-hover:text-indigo-texto focus-visible:outline-turq-cta',
+        className,
+      ]}
+    >
+      <svg
+        class:list={[
+          'pointer-events-none absolute inset-0 z-0 h-full w-full group-hover:scale-[1.02] motion-reduce:transform-none',
+          variantClass,
+        ]}
+        viewBox="0 0 260 60"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d={pathD} />
+      </svg>
+
+      <span class="relative z-10 flex items-center gap-2.5">
+        <slot>{text}</slot>
+        {showArrow && (
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        )}
+      </span>
+    </a>
+  ) : (
+    <button
+      type={type}
+      class:list={[
+        'group isolate relative inline-flex h-16 items-center justify-center px-7 text-sm font-semibold tracking-tight transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 cursor-pointer',
+        isYellow
+          ? 'text-neutral-900 focus-visible:outline-[#F5D300]'
+          : 'text-white group-hover:text-indigo-texto focus-visible:outline-turq-cta',
+        className,
+      ]}
+    >
+      <svg
+        class:list={[
+          'pointer-events-none absolute inset-0 z-0 h-full w-full group-hover:scale-[1.02] motion-reduce:transform-none',
+          variantClass,
+        ]}
+        viewBox="0 0 260 60"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path d={pathD} />
+      </svg>
+
+      <span class="relative z-10 flex items-center gap-2.5">
+        <slot>{text}</slot>
+        {showArrow && (
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        )}
+      </span>
+    </button>
+  )
+}
+
+<style>
+  .cta-ramp-svg--primary {
+    fill: var(--color-turq-cta, #3fa88f);
+    filter: drop-shadow(0 8px 20px rgba(63, 168, 143, 0.35));
+    transition:
+      fill 0.2s ease,
+      filter 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .group:hover .cta-ramp-svg--primary {
+    fill: var(--color-turq-cta-hover, #8fd4c2);
+    filter: drop-shadow(0 12px 26px rgba(63, 168, 143, 0.45));
+  }
+
+  .cta-ramp-svg--yellow {
+    fill: #f5d300;
+    filter: drop-shadow(0 8px 18px rgba(245, 211, 0, 0.35));
+    transition:
+      fill 0.2s ease,
+      filter 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .group:hover .cta-ramp-svg--yellow {
+    fill: #f8dc20;
+    filter: drop-shadow(0 12px 24px rgba(245, 211, 0, 0.45));
+  }
+</style>

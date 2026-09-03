@@ -1,6 +1,7 @@
 ---
 // ValueSection.astro — Solution / Value section (03 // POR QUÉ ELEGIRNOS).
-// 4 feature cards in a horizontal grid (middle 2 offset downwards) + 3 statistics row below.
+// 4 feature cards in a horizontal grid (equal heights) + 3 statistics row below.
+// Stats use only confirmed metrics from AGENTS.md (no fabricated data).
 import Bubble from './ui/Bubble.astro';
 
 export interface StatItem {
@@ -25,9 +26,9 @@ const rampRightPath =
   'M 10 4 L 38 0.5 C 43.5 0.5 47.5 4.5 47.5 10 L 47.5 38 C 47.5 43.5 43.5 47.5 38 47.5 L 10 47.5 C 4.5 47.5 0.5 43.5 0.5 38 L 0.5 14 C 0.5 8 4.5 4 10 4 Z';
 
 const defaultStats: StatItem[] = [
-  { value: '98%', labelTop: 'Satisfacción', labelBottom: 'de clientes' },
-  { value: '50+', labelTop: 'Espacios', labelBottom: 'limpiados' },
-  { value: '2+', labelTop: 'Años de', labelBottom: 'experiencia' },
+  { value: '98%', labelTop: 'Renovación', labelBottom: 'de clientes' },
+  { value: '50+', labelTop: 'Edificios, oficinas', labelBottom: 'y clínicas' },
+  { value: '95%', labelTop: 'Menos errores', labelBottom: 'administrativos' },
 ];
 
 const {
@@ -56,20 +57,20 @@ const {
       </p>
       <h2
         data-reveal
-        class="font-display mx-auto mt-3 max-w-3xl text-3xl font-bold leading-[1.08] tracking-tight text-indigo-texto sm:text-4xl lg:text-[2.75rem]"
+        class="font-display mx-auto mt-3 max-w-3xl text-3xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-4xl lg:text-[2.75rem]"
         style="--reveal-delay: 80ms"
       >
         {title}
       </h2>
     </div>
 
-    <!-- Feature cards grid: middle two cards shifted downwards on desktop -->
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 items-start">
+    <!-- Feature cards grid: all cards equal height -->
+    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
 
-      <!-- Feature 1: QR + GPS (Lado izquierdo más alto, posición estándar) -->
+      <!-- Feature 1: QR + GPS (icono ramp izquierda) -->
       <div
         data-reveal
-        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
+        class="group flex h-full flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
         style="--reveal-delay: 150ms"
       >
         <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
@@ -104,18 +105,19 @@ const {
             <path d="M12 21v-1" />
           </svg>
         </span>
-        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+        <h3 class="mb-3 text-center text-base font-semibold leading-snug text-indigo-texto">
           Control de asistencia por QR y GPS
         </h3>
         <p class="text-center text-sm leading-relaxed text-texto-secundario">
-          Cada ingreso y salida del personal queda registrado con ubicación y horario. Vos podés pedir el reporte cuando quieras.
+          No dependés de que "alguien avise" si faltó personal: cada ingreso y
+          salida queda registrado con QR y GPS, y el reporte lo pedís cuando quieras.
         </p>
       </div>
 
-      <!-- Feature 2: Personal propio (Lado izquierdo más alto, bajada en desktop) -->
+      <!-- Feature 2: Personal propio (icono ramp izquierda) -->
       <div
         data-reveal
-        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:mt-8"
+        class="group flex h-full flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:translate-y-10"
         style="--reveal-delay: 230ms"
       >
         <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
@@ -142,18 +144,19 @@ const {
             <path d="M16 3.13a4 4 0 0 1 0 7.75" />
           </svg>
         </span>
-        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+        <h3 class="mb-3 text-center text-base font-semibold leading-snug text-indigo-texto">
           Personal propio, no tercerizado
         </h3>
         <p class="text-center text-sm leading-relaxed text-texto-secundario">
-          El equipo que limpia tu edificio es parte de AZ, no una subcontratación de último momento.
+          El equipo que limpia tu edificio es parte de AZ: el mismo personal,
+          no una subcontratación de último momento.
         </p>
       </div>
 
-      <!-- Feature 3: Protocolos (Lado derecho más alto, bajada en desktop) -->
+      <!-- Feature 3: Protocolos (icono ramp derecha) -->
       <div
         data-reveal
-        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:mt-8"
+        class="group flex h-full flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md lg:translate-y-10"
         style="--reveal-delay: 310ms"
       >
         <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
@@ -180,18 +183,19 @@ const {
             <rect width="7" height="7" x="3" y="14" rx="1" />
           </svg>
         </span>
-        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
-          Protocolos adaptados por tipo de espacio
+        <h3 class="mb-3 text-center text-base font-semibold leading-snug text-indigo-texto">
+          Protocolos por tipo de espacio
         </h3>
         <p class="text-center text-sm leading-relaxed text-texto-secundario">
-          Consorcio, oficina y clínica no se limpian igual — ajustamos frecuencia y protocolo según el tipo de espacio y sus normas.
+          Un consorcio no se limpia igual que una clínica: ajustamos frecuencia
+          y protocolo según el tipo de espacio y sus normas.
         </p>
       </div>
 
-      <!-- Feature 4: Reportes (Lado derecho más alto, posición estándar) -->
+      <!-- Feature 4: Reportes (icono ramp derecha) -->
       <div
         data-reveal
-        class="group flex flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
+        class="group flex h-full flex-col items-center rounded-2xl border border-lila-suave/40 bg-[#FAF8FE] p-8 shadow-sm transition-all duration-300 hover:border-lila-medio/60 hover:shadow-md"
         style="--reveal-delay: 390ms"
       >
         <span class="relative mb-6 h-16 w-16 shrink-0" aria-hidden="true">
@@ -219,11 +223,12 @@ const {
             <polyline points="10 9 9 9 8 9" />
           </svg>
         </span>
-        <h3 class="mb-3 text-center text-base font-bold leading-tight text-indigo-texto">
+        <h3 class="mb-3 text-center text-base font-semibold leading-snug text-indigo-texto">
           Reportes de gestión, no promesas verbales
         </h3>
         <p class="text-center text-sm leading-relaxed text-texto-secundario">
-          Podés pedir en cualquier momento el detalle de turnos cumplidos, con horarios reales.
+          Pedí en cualquier momento el detalle de turnos cumplidos, con horarios
+          reales: sabés qué se hizo y qué no.
         </p>
       </div>
 
@@ -233,7 +238,7 @@ const {
     <div
       data-reveal
       style="--reveal-delay: 450ms"
-      class="mt-12 lg:mt-14 flex flex-wrap items-center justify-center gap-10 sm:gap-16 lg:gap-24"
+      class="mt-20 lg:mt-24 flex flex-wrap items-center justify-center gap-10 sm:gap-16 lg:gap-24"
     >
       {
         stats.map((stat) => (

@@ -1,6 +1,10 @@
 ---
 // ServicesSection.astro — Interactive B2B services section with sticky stacking cards.
 // In desktop, cards stack and overlap at top-[7rem] (matching navbar offset).
+import { Image } from 'astro:assets';
+import consorciosImg from '../assets/servicio-consorcios.jpg';
+import oficinasImg from '../assets/servicio-oficinas.jpg';
+import clinicasImg from '../assets/servicio-clinicas.jpg';
 import Bubble from './ui/Bubble.astro';
 
 export interface ServiceItem {
@@ -8,6 +12,8 @@ export interface ServiceItem {
   title: string;
   description: string;
   tags: string[];
+  image?: ImageMetadata;
+  imagePosition?: string;
   imagePlaceholderUrl?: string;
   link?: string;
 }
@@ -20,19 +26,22 @@ interface Props {
 
 const defaultServices: ServiceItem[] = [
   {
-    id: 'consorcios',
-    title: 'Limpieza de Consorcios y Edificios',
-    description:
-      'Mantenimiento integral de áreas comunes, halls de ingreso, escaleras, ascensores y cocheras. Asistencia y horarios controlados por QR y GPS en cada turno.',
-    tags: ['Halls y accesos', 'Áreas comunes', 'Cocheras y veredas', 'Control QR y GPS'],
-    link: '#contacto',
-  },
-  {
     id: 'oficinas',
     title: 'Limpieza de Oficinas y Empresas',
     description:
       'Servicio programado adaptado al ritmo operativo de tu equipo. Mantenimiento de puestos de trabajo, salas de reunión, office y sanitarios sin interrumpir tu jornada.',
     tags: ['Puestos operativos', 'Salas de reunión', 'Sanitarios y office', 'Turnos flexibles'],
+    image: oficinasImg,
+    link: '#contacto',
+  },
+  {
+    id: 'consorcios',
+    title: 'Limpieza de Consorcios y Edificios',
+    description:
+      'Mantenimiento integral de áreas comunes, halls de ingreso, escaleras, ascensores y cocheras. Asistencia y horarios controlados por QR y GPS en cada turno.',
+    tags: ['Halls y accesos', 'Áreas comunes', 'Cocheras y veredas', 'Control QR y GPS'],
+    image: consorciosImg,
+    imagePosition: 'object-bottom',
     link: '#contacto',
   },
   {
@@ -41,6 +50,7 @@ const defaultServices: ServiceItem[] = [
     description:
       'Protocolos rigurosos de desinfección e higiene para consultorios, salas de espera y áreas sensibles. Personal propio capacitado y trazabilidad documentada.',
     tags: ['Protocolos sanitarios', 'Desinfección profunda', 'Zonas médicas y consultorios', 'Reporte de cumplimiento'],
+    image: clinicasImg,
     link: '#contacto',
   },
 ];
@@ -66,7 +76,7 @@ const {
         {eyebrow}
       </p>
       <h2
-        class="font-display mt-3 text-3xl font-bold leading-[1.08] tracking-tight text-indigo-texto sm:text-4xl lg:text-[2.75rem]"
+        class="font-display mt-3 text-3xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-4xl lg:text-[2.75rem]"
       >
         {title}
       </h2>
@@ -94,7 +104,16 @@ const {
                 >
                   <!-- 1. Left: Image container with strict height containment -->
                   <div class="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-2xl border border-lila-suave/35 bg-gradient-to-br from-lila-pastel via-bg-claro to-lila-suave/25 shadow-2xs sm:h-full sm:w-[240px] md:w-[290px] lg:w-[340px] xl:w-[380px] lg:rounded-[24px]">
-                    {service.imagePlaceholderUrl ? (
+                    {service.image ? (
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        widths={[340, 480, 720, 1000, 1400]}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 340px, 380px"
+                        quality={92}
+                        class={`h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transform-none ${service.imagePosition || 'object-center'}`}
+                      />
+                    ) : service.imagePlaceholderUrl ? (
                       <img
                         src={service.imagePlaceholderUrl}
                         alt={service.title}
@@ -155,7 +174,7 @@ const {
 
                   <!-- 2. Center: Title, Description, Chips -->
                   <div class="flex flex-1 flex-col justify-center space-y-3 py-1 lg:space-y-4">
-                    <h3 class="font-display text-2xl font-bold tracking-tight text-indigo-texto transition-colors duration-200 group-hover:text-violeta-osc lg:text-3xl">
+                    <h3 class="font-display text-2xl font-semibold tracking-[-0.01em] text-indigo-texto transition-colors duration-200 group-hover:text-violeta-osc lg:text-3xl">
                       {service.title}
                     </h3>
                     <p class="max-w-xl text-sm leading-relaxed text-texto-secundario sm:text-base">

@@ -404,9 +404,6 @@ const contactHref = '#contacto';
     window.requestAnimationFrame(step);
   };
 
-  // Header offset: 88px leaves elegant breathing space below the floating navbar
-  const headerOffset = 88;
-
   document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener('click', (event) => {
       const href = anchor.getAttribute('href');
@@ -417,18 +414,44 @@ const contactHref = '#contacto';
         event.preventDefault();
         setOpen(false);
 
+        // Tailored landing offsets per section:
+        // - "Funcionamiento" (#como-funciona): offset 0 (user confirmed it is perfect)
+        // - "Contacto" (#contacto): aligns the top of the photo banner at exactly ~20px below viewport top
+        //   and the form card at ~100px (exact match to user's visual reference)
+        // - Other sections (#quienes-somos, #servicios, #el-problema, #faq): midpoint offset (-44px)
+        let targetOffset = -44;
+        if (href === '#como-funciona') {
+          targetOffset = 0;
+        } else if (href === '#contacto') {
+          const bannerEl = targetEl.querySelector<HTMLElement>('[data-contact-banner]');
+          const dockEl = document.querySelector<HTMLElement>('[data-dock-nav]');
+          const isDockVisible = dockEl && window.getComputedStyle(dockEl).display !== 'none';
+          const navbarTop = isDockVisible
+            ? dockEl.getBoundingClientRect().top
+            : (document.getElementById('site-header')?.getBoundingClientRect().top ?? 24);
+
+          if (bannerEl) {
+            const bannerRelativeTop =
+              bannerEl.getBoundingClientRect().top - targetEl.getBoundingClientRect().top;
+            // Coincide el techo del fondo púrpura exactamente con el techo del navbar
+            targetOffset = bannerRelativeTop - navbarTop;
+          } else {
+            targetOffset = 68;
+          }
+        }
+
         const lenis = (window as any).lenis;
         if (lenis) {
           lenis.scrollTo(targetEl, {
-            offset: -headerOffset,
-            duration: 1.4,
+            offset: targetOffset,
+            duration: 1.3,
           });
         } else {
           const targetY = Math.max(
             0,
-            targetEl.getBoundingClientRect().top + window.scrollY - headerOffset,
+            targetEl.getBoundingClientRect().top + window.scrollY + targetOffset,
           );
-          smoothScrollTo(targetY, 1100);
+          smoothScrollTo(targetY, 1000);
         }
         history.pushState(null, '', href);
       }

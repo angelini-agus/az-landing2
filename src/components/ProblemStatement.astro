@@ -2,7 +2,7 @@
 // ProblemStatement.astro — "El Problema": Real photo on the left with ramp top edge sloping down
 // towards the middle; on the right: eyebrow, headline, body paragraph, and the 3 pain points in 3 rows.
 import { Image } from 'astro:assets';
-import problemImg from '../assets/pileta.jpg';
+import problemImg from '../assets/problema.jpg';
 import Bubble from './ui/Bubble.astro';
 
 const bullets = [
@@ -50,10 +50,11 @@ const bullets = [
           >
             <Image
               src={problemImg}
-              alt="Personal propio de AZ Servicios de Limpieza trabajando en instalaciones de un edificio"
-              widths={[400, 600, 800]}
+              alt="Persona agotada tratando de gestionar la limpieza por su cuenta"
+              widths={[400, 600, 736]}
               sizes="(min-width: 1024px) 480px, 100vw"
-              class="h-[400px] w-full object-cover object-[center_20%] sm:h-[480px] lg:h-[540px] transition-transform duration-500 hover:scale-105"
+              quality={92}
+              class="h-[400px] w-full object-cover object-bottom sm:h-[480px] lg:h-[540px] transition-transform duration-500 hover:scale-105"
             />
             <!-- Subtle gradient vignette for depth -->
             <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-indigo-texto/25 via-transparent to-transparent"></div>
@@ -68,7 +69,7 @@ const bullets = [
           <p class="font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-lila-medio">
             03 // EL PROBLEMA
           </p>
-          <h2 class="font-display text-3xl font-bold leading-[1.1] tracking-tight text-indigo-texto sm:text-4xl lg:text-[2.6rem]">
+          <h2 class="font-display text-3xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-4xl lg:text-[2.6rem]">
             Contratás una empresa de limpieza y terminás gestionándola vos.
           </h2>
           <p class="text-sm leading-relaxed text-texto-secundario sm:text-base lg:text-[1.05rem]">

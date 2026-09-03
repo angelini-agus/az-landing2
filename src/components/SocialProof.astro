@@ -5,11 +5,11 @@
 // and the "own team" badge. The pending "buildings served" metric is NOT
 // invented — the card shows the confirmed 95% until the client confirms it.
 import { Image } from 'astro:assets';
-import quienesSomosImg from '../assets/quienes-somos.jpg';
+import sobreNosotrosImg from '../assets/sobre-nosotros.jpg';
 import Bubble from './ui/Bubble.astro';
 ---
 
-<section id="quienes-somos" class="relative overflow-hidden bg-bg-claro">
+<section id="quienes-somos" class="relative flex min-h-[80vh] flex-col justify-center overflow-hidden bg-bg-claro py-14 lg:h-[80vh] lg:min-h-[80vh] lg:py-0">
   <div id="como-trabajamos" class="sr-only"></div>
   <div id="nosotros" class="sr-only"></div>
   <!-- Decorative bubbles: white/gray, blurred, never brand-tinted. -->
@@ -19,7 +19,7 @@ import Bubble from './ui/Bubble.astro';
     <Bubble size={100} top={30} left={95} blur={35} opacity={0.45} tone="light" duration={5} delay={0.8} />
   </div>
 
-  <div class="container-page relative py-16 lg:py-24">
+  <div class="container-page relative w-full">
     <div
       class="flex flex-col gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16 xl:gap-[240px]"
     >
@@ -32,7 +32,7 @@ import Bubble from './ui/Bubble.astro';
         </p>
 
         <h2
-          class="font-display text-4xl font-bold leading-[1.08] tracking-[-0.03em] text-indigo-texto sm:text-5xl lg:text-[3.25rem]"
+          class="font-display text-4xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-5xl lg:text-[3.25rem]"
         >
           Limpieza profesional con control y constancia
         </h2>
@@ -50,40 +50,226 @@ import Bubble from './ui/Bubble.astro';
           </p>
         </div>
 
-        <!-- Carousel space (se implementa luego) -->
+        <!-- Generic architectural building marquee in delimited space -->
         <div class="pt-6 border-t border-lila-suave/40">
-          <p class="text-xs font-semibold uppercase tracking-wider text-texto-secundario/70 mb-3.5">
-            Espacios y consorcios que confían en nosotros
-          </p>
-          <div class="flex items-center gap-7 opacity-40 grayscale">
-            <div class="h-6 w-24 rounded-md bg-lila-suave/50"></div>
-            <div class="h-6 w-28 rounded-md bg-lila-suave/50"></div>
-            <div class="h-6 w-24 rounded-md bg-lila-suave/50"></div>
-            <div class="h-6 w-28 rounded-md bg-lila-suave/50"></div>
+          <div
+            class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]"
+            aria-label="Espacios arquitectónicos atendidos"
+          >
+            <div
+              class="flex w-max items-center py-1.5 animate-marquee select-none hover:[animation-play-state:paused]"
+            >
+              <!-- Track Set 1 -->
+              <div class="flex items-center gap-10 pr-10 shrink-0 text-lila-medio/75">
+                <!-- Torre corporativa -->
+                <svg viewBox="0 0 46 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <line x1="23" y1="2" x2="23" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="18" y="7" width="10" height="3" rx="0.5" stroke="currentColor" stroke-width="1.5" />
+                  <rect x="11" y="10" width="24" height="34" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="16" y1="16" x2="19" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="22" x2="19" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="22" x2="30" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="28" x2="19" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="28" x2="30" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="34" x2="19" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="34" x2="30" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M20 44V38H26V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Consorcio residencial -->
+                <svg viewBox="0 0 48 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <rect x="7" y="9" width="34" height="35" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="5" y1="9" x2="43" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="12" y="14" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="14" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="12" y="22" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="22" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="12" y="30" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="30" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <line x1="19" y1="39" x2="29" y2="39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M21 44V40H27V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Centro médico / clínica -->
+                <svg viewBox="0 0 50 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <rect x="5" y="12" width="40" height="32" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="21" y="5" width="8" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.18" />
+                  <path d="M25 7V10M23 8.5H27" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="11" y1="18" x2="39" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="11" y1="24" x2="39" y2="24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="11" y1="30" x2="39" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M20 44V36H30V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <line x1="25" y1="36" x2="25" y2="44" stroke="currentColor" stroke-width="1" />
+                </svg>
+
+                <!-- Torre moderna de cristal -->
+                <svg viewBox="0 0 44 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <path d="M8 44V14L36 6V44H8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="15" y1="17" x2="15" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="22" y1="15" x2="22" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="29" y1="13" x2="29" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="8" y1="22" x2="36" y2="19" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" />
+                  <line x1="8" y1="31" x2="36" y2="28" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" />
+                  <path d="M18 44V39H26V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Torres conectadas -->
+                <svg viewBox="0 0 52 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <rect x="5" y="8" width="16" height="36" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="31" y="12" width="16" height="32" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="21" y="20" width="10" height="6" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.22" />
+                  <line x1="10" y1="14" x2="16" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="10" y1="20" x2="16" y2="20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="10" y1="30" x2="16" y2="30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="36" y1="18" x2="42" y2="18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="36" y1="30" x2="42" y2="30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <path d="M10 44V40H16V44" stroke="currentColor" stroke-width="1.2" />
+                  <path d="M36 44V40H42V44" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+
+                <!-- Edificio corporativo escalonado -->
+                <svg viewBox="0 0 46 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105" aria-hidden="true">
+                  <path d="M16 4H30V10H39V44H7V10H16V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="23" y1="1" x2="23" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="12" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="12" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="12" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <path d="M19 44V39H27V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <!-- Track Set 2 (duplicado exacto para bucle continuo) -->
+              <div class="flex items-center gap-10 pr-10 shrink-0 text-lila-medio/75" aria-hidden="true">
+                <!-- Torre corporativa -->
+                <svg viewBox="0 0 46 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <line x1="23" y1="2" x2="23" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="18" y="7" width="10" height="3" rx="0.5" stroke="currentColor" stroke-width="1.5" />
+                  <rect x="11" y="10" width="24" height="34" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="16" y1="16" x2="19" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="16" x2="30" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="22" x2="19" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="22" x2="30" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="28" x2="19" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="28" x2="30" y2="28" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="16" y1="34" x2="19" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="27" y1="34" x2="30" y2="34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M20 44V38H26V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Consorcio residencial -->
+                <svg viewBox="0 0 48 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <rect x="7" y="9" width="34" height="35" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="5" y1="9" x2="43" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="12" y="14" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="14" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="12" y="22" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="22" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="12" y="30" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <rect x="27" y="30" width="9" height="4" rx="0.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.14" />
+                  <line x1="19" y1="39" x2="29" y2="39" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M21 44V40H27V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Centro médico / clínica -->
+                <svg viewBox="0 0 50 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <rect x="5" y="12" width="40" height="32" rx="2" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="21" y="5" width="8" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.18" />
+                  <path d="M25 7V10M23 8.5H27" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="11" y1="18" x2="39" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="11" y1="24" x2="39" y2="24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <line x1="11" y1="30" x2="39" y2="30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <path d="M20 44V36H30V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                  <line x1="25" y1="36" x2="25" y2="44" stroke="currentColor" stroke-width="1" />
+                </svg>
+
+                <!-- Torre moderna de cristal -->
+                <svg viewBox="0 0 44 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <path d="M8 44V14L36 6V44H8Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="15" y1="17" x2="15" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="22" y1="15" x2="22" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="29" y1="13" x2="29" y2="39" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="8" y1="22" x2="36" y2="19" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" />
+                  <line x1="8" y1="31" x2="36" y2="28" stroke="currentColor" stroke-width="1" stroke-dasharray="2 2" />
+                  <path d="M18 44V39H26V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+
+                <!-- Torres conectadas -->
+                <svg viewBox="0 0 52 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <rect x="5" y="8" width="16" height="36" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="31" y="12" width="16" height="32" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="currentColor" fill-opacity="0.06" />
+                  <rect x="21" y="20" width="10" height="6" stroke="currentColor" stroke-width="1.2" fill="currentColor" fill-opacity="0.22" />
+                  <line x1="10" y1="14" x2="16" y2="14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="10" y1="20" x2="16" y2="20" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="10" y1="30" x2="16" y2="30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="36" y1="18" x2="42" y2="18" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <line x1="36" y1="30" x2="42" y2="30" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                  <path d="M10 44V40H16V44" stroke="currentColor" stroke-width="1.2" />
+                  <path d="M36 44V40H42V44" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+
+                <!-- Edificio corporativo escalonado -->
+                <svg viewBox="0 0 46 46" fill="none" class="h-10 w-auto shrink-0 transition-all duration-200 hover:text-violeta-osc hover:scale-105">
+                  <path d="M16 4H30V10H39V44H7V10H16V4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" fill="currentColor" fill-opacity="0.06" />
+                  <line x1="23" y1="1" x2="23" y2="4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  <rect x="12" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="16" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="12" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="24" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="12" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="20" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <rect x="28" y="32" width="5" height="4" rx="0.5" stroke="currentColor" stroke-width="1" fill="currentColor" fill-opacity="0.12" />
+                  <path d="M19 44V39H27V44" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Right column: wider and tall card (max-w-[500px], aspect-[4/5]) with floating pills -->
-      <div class="w-full max-w-[500px] shrink-0">
+      <!-- Right column: compact card with Freshify proportions and ramp top pill -->
+      <div class="w-full max-w-[480px] shrink-0">
         <div
           data-reveal
-          class="relative flex aspect-[4/5] min-h-[540px] w-full flex-col justify-end overflow-hidden rounded-[36px] border border-lila-suave/40 bg-lila-pastel/60 p-6 shadow-xl lg:min-h-[580px] lg:p-7"
+          class="relative flex aspect-[4/4.3] min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] w-full flex-col justify-end overflow-hidden rounded-[32px] sm:rounded-[36px] border border-lila-suave/40 bg-lila-pastel/60 p-5 sm:p-6 shadow-xl"
         >
-          <!-- Real team photo -->
+          <!-- Real team photo (crisp 4K asset rendered with high quality and Retina density) -->
           <Image
-            src={quienesSomosImg}
+            src={sobreNosotrosImg}
             alt="Personal de AZ Servicios de Limpieza uniformado"
-            widths={[400, 600, 800]}
-            sizes="(max-width: 640px) 100vw, 500px"
+            widths={[480, 720, 1024]}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
+            quality={95}
             class="absolute inset-0 h-full w-full object-cover object-center"
           />
           <div class="absolute inset-0 bg-gradient-to-t from-indigo-texto/70 via-indigo-texto/10 to-transparent"></div>
 
           <!-- Floating pills overlaid at the bottom of the card -->
-          <div class="relative z-10 flex flex-col gap-3.5">
-            <!-- Pill 1: Lock / shield badge -->
-            <div class="flex items-center gap-3.5 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-sm backdrop-blur-md">
+          <div class="relative z-10 flex flex-col gap-3">
+            <!-- Pill 1: Lock / shield badge with CTA-style ramp top -->
+            <div class="relative isolate flex items-center gap-3.5 px-4.5 py-3.5 sm:px-5 sm:py-4">
+              <!-- SVG ramp background: flat base, sloped top edge (left taller), smooth rounded corners -->
+              <svg
+                class="pointer-events-none absolute inset-0 -z-10 h-full w-full overflow-visible drop-shadow-sm"
+                viewBox="0 0 360 64"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M 18 0 L 342 10 C 352 10 360 18 360 28 L 360 46 C 360 56 352 64 342 64 L 18 64 C 8 64 0 56 0 46 L 0 18 C 0 8 8 0 18 0 Z"
+                  fill="rgba(255, 255, 255, 0.94)"
+                  stroke="rgba(255, 255, 255, 0.8)"
+                  stroke-width="1.5"
+                />
+              </svg>
               <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-lila-pastel text-violeta-osc">
                 <svg
                   viewBox="0 0 24 24"
@@ -110,7 +296,7 @@ import Bubble from './ui/Bubble.astro';
             </div>
 
             <!-- Pill 2: 50+ stat badge -->
-            <div class="flex items-center gap-4 rounded-2xl border border-white/60 bg-white/90 p-4 shadow-sm backdrop-blur-md">
+            <div class="flex items-center gap-4 rounded-2xl border border-white/60 bg-white/92 px-4.5 py-3.5 sm:px-5 sm:py-4 shadow-sm backdrop-blur-md">
               <span class="font-display text-4xl font-bold leading-none text-indigo-texto">
                 50+
               </span>
@@ -147,3 +333,24 @@ import Bubble from './ui/Bubble.astro';
     }
   }
 </script>
+
+<style>
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 24s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+      animation: none;
+    }
+  }
+</style>

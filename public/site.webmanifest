@@ -1,0 +1,26 @@
+{
+  "name": "AZ Servicios de Limpieza",
+  "short_name": "AZ Limpieza",
+  "description": "Limpieza integral para consorcios, oficinas y clínicas en Rosario. Equipo propio con asistencia controlada por QR y GPS.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#EFEAF9",
+  "theme_color": "#5B4E8A",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -66,7 +66,7 @@ const {
     <div class="mb-12 lg:mb-16 text-center">
       <p
         data-reveal
-        class="font-display text-sm font-semibold uppercase tracking-[0.12em] text-lila-medio"
+        class="font-display text-sm font-semibold uppercase tracking-[0.12em] text-violeta-osc"
         style="--reveal-delay: 0ms"
       >
         {eyebrow}
@@ -85,6 +85,7 @@ const {
       {
         faqs.map((faq, index) => {
           const answerId = `faq-answer-${index}`;
+          const triggerId = `faq-trigger-${index}`;
           const isFirst = index === 0;
           return (
             <div
@@ -96,6 +97,7 @@ const {
             >
               <button
                 type="button"
+                id={triggerId}
                 aria-expanded={isFirst ? 'true' : 'false'}
                 aria-controls={answerId}
                 class="faq-trigger flex w-full items-center justify-between gap-4 text-left cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-lg"
@@ -128,7 +130,7 @@ const {
               <div
                 id={answerId}
                 role="region"
-                aria-labelledby={faq.question}
+                aria-labelledby={triggerId}
                 class="faq-content grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out group-data-[open]:grid-rows-[1fr]"
               >
                 <div class="overflow-hidden">

@@ -47,7 +47,7 @@ const {
     >
       <!-- Card header -->
       <div class="mb-8 text-center sm:mb-10">
-        <p class="font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-lila-medio">
+        <p class="font-display text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-violeta-osc">
           {eyebrow}
         </p>
         <h2 class="font-display mx-auto mt-3 max-w-xl text-2xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-3xl lg:text-4xl">
@@ -59,10 +59,10 @@ const {
       </div>
 
       <!-- Zero-friction Contact Form (Email-first, no initial phone) -->
-      <form id="contact-form" class="space-y-4 sm:space-y-5">
+      <form id="contact-form" novalidate class="space-y-4 sm:space-y-5">
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
           <!-- Nombre -->
-          <div class="space-y-1.5">
+          <div class="space-y-1.5" data-field-wrapper>
             <label for="nombre" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
               Nombre y apellido *
             </label>
@@ -77,7 +77,7 @@ const {
           </div>
 
           <!-- Email -->
-          <div class="space-y-1.5">
+          <div class="space-y-1.5" data-field-wrapper>
             <label for="email" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
               Email de contacto *
             </label>
@@ -94,7 +94,7 @@ const {
 
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5">
           <!-- Institución / Edificio -->
-          <div class="space-y-1.5">
+          <div class="space-y-1.5" data-field-wrapper>
             <label for="institucion" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
               Institución o edificio *
             </label>
@@ -109,7 +109,7 @@ const {
           </div>
 
           <!-- Tipo de espacio (Custom Dropdown) -->
-          <div class="space-y-1.5">
+          <div class="space-y-1.5" data-field-wrapper>
             <label id="tipo-espacio-label" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
               Tipo de espacio *
             </label>
@@ -206,7 +206,7 @@ const {
         </div>
 
         <!-- Consulta / Mensaje opcional -->
-        <div class="space-y-1.5">
+        <div class="space-y-1.5" data-field-wrapper>
           <label for="mensaje" class="block text-xs font-semibold uppercase tracking-wider text-indigo-texto">
             Detalles adicionales (opcional)
           </label>
@@ -231,7 +231,7 @@ const {
             />
           </div>
 
-          <p class="text-[11px] font-medium uppercase tracking-wider text-texto-secundario/75 sm:max-w-[240px] sm:text-right leading-tight">
+          <p class="text-[11px] font-medium uppercase tracking-wider text-texto-secundario sm:max-w-[240px] sm:text-right leading-tight">
             Evaluamos tu caso de forma confidencial y sin costo inicial.
           </p>
         </div>
@@ -241,9 +241,82 @@ const {
 </section>
 
 <script>
-  // Prevent default submission on form
-  document.getElementById('contact-form')?.addEventListener('submit', (e) => {
+  import { validateContactForm } from '../lib/contact';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+  const errorLive = document.createElement('div');
+  errorLive.id = 'form-error-live';
+  errorLive.setAttribute('aria-live', 'polite');
+  errorLive.setAttribute('role', 'status');
+  errorLive.className = 'sr-only';
+  form?.appendChild(errorLive);
+
+  const fieldError = (input: HTMLInputElement | HTMLTextAreaElement | HTMLElement, message: string) => {
+    const wrapper = input.closest<HTMLElement>('[data-field-wrapper]');
+    let err = wrapper?.querySelector<HTMLElement>('[data-field-error]');
+    if (!err && wrapper) {
+      err = document.createElement('p');
+      err.setAttribute('data-field-error', '');
+      err.id = `${input.id}-error`;
+      err.className = 'text-xs font-medium text-violeta-osc';
+      wrapper.appendChild(err);
+    }
+    if (err) {
+      err.textContent = message;
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', err.id);
+    }
+  };
+
+  const clearErrors = () => {
+    document.querySelectorAll<HTMLElement>('[data-field-error]').forEach((el) => {
+      el.remove();
+    });
+    form?.querySelectorAll('[aria-invalid="true"]').forEach((el) =>
+      el.removeAttribute('aria-invalid'),
+    );
+  };
+
+  const getHiddenValue = (name: string) => {
+    const hidden = form?.querySelector<HTMLInputElement>(`input[name="${name}"]`);
+    return hidden?.value?.trim() || '';
+  };
+
+  form?.addEventListener('submit', (e) => {
     e.preventDefault();
+    clearErrors();
+    if (errorLive) errorLive.textContent = '';
+
+    const nombre = form.querySelector<HTMLInputElement>('input[name="nombre"]');
+    const email = form.querySelector<HTMLInputElement>('input[name="email"]');
+    const institucion = form.querySelector<HTMLInputElement>('input[name="institucion"]');
+    const tipoEspacio = getHiddenValue('tipo-espacio');
+    const errors = validateContactForm({
+      nombre: nombre?.value ?? '',
+      email: email?.value ?? '',
+      institucion: institucion?.value ?? '',
+      tipoEspacio,
+    });
+
+    for (const err of errors) {
+      const fieldEl =
+        err.field === 'tipoEspacio'
+          ? (document.getElementById('tipo-espacio-trigger') as HTMLElement | null)
+          : form?.querySelector<HTMLInputElement>(`input[name="${err.field}"]`);
+      if (fieldEl) fieldError(fieldEl as HTMLInputElement, err.message);
+    }
+
+    if (errors.length > 0) {
+      const firstError = form.querySelector('[aria-invalid="true"]') as HTMLElement | null;
+      firstError?.focus();
+      if (errorLive) errorLive.textContent = errors.length === 1
+        ? 'No se pudo enviar el formulario. Revisá los campos marcados.'
+        : 'Revisá los campos marcados en el formulario.';
+      return;
+    }
+
+    if (errorLive) errorLive.textContent = 'Formulario enviado. Nos vamos a contactar por mail.';
   });
 
   // Custom Dropdown for Tipo de Espacio
@@ -320,6 +393,56 @@ const {
     if (e.key === 'Escape') {
       closeSelect();
     }
+  });
+
+  // Full keyboard navigation for the listbox (roving tabindex + arrows + Enter)
+  const optionArray = Array.from(options ?? []);
+  const setFocused = (opt: HTMLLIElement) => {
+    optionArray.forEach((o) => o.setAttribute('tabindex', '-1'));
+    opt.setAttribute('tabindex', '0');
+    opt.focus();
+  };
+
+  trigger?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        openSelect();
+      }
+      if (optionArray.length > 0) setFocused(optionArray[0]);
+    }
+  });
+
+  optionArray.forEach((opt) => {
+    opt.addEventListener('keydown', (e) => {
+      const idx = optionArray.indexOf(opt);
+      switch (e.key) {
+        case 'ArrowDown':
+          e.preventDefault();
+          setFocused(optionArray[(idx + 1) % optionArray.length]);
+          break;
+        case 'ArrowUp':
+          e.preventDefault();
+          setFocused(optionArray[(idx - 1 + optionArray.length) % optionArray.length]);
+          break;
+        case 'Home':
+          e.preventDefault();
+          setFocused(optionArray[0]);
+          break;
+        case 'End':
+          e.preventDefault();
+          setFocused(optionArray[optionArray.length - 1]);
+          break;
+        case 'Enter':
+        case ' ':
+          e.preventDefault();
+          opt.click();
+          break;
+        case 'Tab':
+          closeSelect();
+          break;
+      }
+    });
   });
 
   // Reveal IntersectionObserver

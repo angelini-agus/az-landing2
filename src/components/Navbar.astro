@@ -298,6 +298,8 @@ const contactHref = '#contacto';
 </header>
 
 <script>
+  import { getBaseSectionOffset, resolveSectionOffset } from '../lib/scroll-offset';
+
   const header = document.querySelector<HTMLElement>('#site-header')!;
   const toggle = document.querySelector<HTMLButtonElement>('#nav-toggle')!;
   const overlay = document.querySelector<HTMLElement>('#mobile-menu')!;
@@ -414,15 +416,9 @@ const contactHref = '#contacto';
         event.preventDefault();
         setOpen(false);
 
-        // Tailored landing offsets per section:
-        // - "Funcionamiento" (#como-funciona): offset 0 (user confirmed it is perfect)
-        // - "Contacto" (#contacto): aligns the top of the photo banner at exactly ~20px below viewport top
-        //   and the form card at ~100px (exact match to user's visual reference)
-        // - Other sections (#quienes-somos, #servicios, #el-problema, #faq): midpoint offset (-44px)
-        let targetOffset = -44;
-        if (href === '#como-funciona') {
-          targetOffset = 0;
-        } else if (href === '#contacto') {
+        // Tailored landing offsets per section, computed by lib/scroll-offset.ts
+        let targetOffset = getBaseSectionOffset(href);
+        if (href === '#contacto') {
           const bannerEl = targetEl.querySelector<HTMLElement>('[data-contact-banner]');
           const dockEl = document.querySelector<HTMLElement>('[data-dock-nav]');
           const isDockVisible = dockEl && window.getComputedStyle(dockEl).display !== 'none';
@@ -430,14 +426,13 @@ const contactHref = '#contacto';
             ? dockEl.getBoundingClientRect().top
             : (document.getElementById('site-header')?.getBoundingClientRect().top ?? 24);
 
-          if (bannerEl) {
-            const bannerRelativeTop =
-              bannerEl.getBoundingClientRect().top - targetEl.getBoundingClientRect().top;
-            // Coincide el techo del fondo púrpura exactamente con el techo del navbar
-            targetOffset = bannerRelativeTop - navbarTop;
-          } else {
-            targetOffset = 68;
-          }
+          targetOffset = resolveSectionOffset(href, {
+            hasBanner: Boolean(bannerEl),
+            bannerRelativeTop: bannerEl
+              ? bannerEl.getBoundingClientRect().top - targetEl.getBoundingClientRect().top
+              : 0,
+            navbarTop,
+          });
         }
 
         const lenis = (window as any).lenis;

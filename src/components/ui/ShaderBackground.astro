@@ -306,6 +306,13 @@ void main() {
       if (canvas.dataset.initialized === 'true') return;
       canvas.dataset.initialized = 'true';
 
+      // Reduced motion: render a single static frame, no rAF loop or cursor.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        UNIFORMS.timeScale = 0;
+        UNIFORMS.cursorEnabled = false;
+      }
+
       const glCtx = canvas.getContext('webgl', { antialias: false, powerPreference: 'low-power' });
       if (!glCtx) return;
       const gl: WebGLRenderingContext = glCtx;
@@ -552,6 +559,30 @@ void main() {
     });
   }
 
-  initShader();
-  document.addEventListener('astro:after-swap', initShader);
+  // Lazy init: compile the GLSL program only when the canvas approaches the
+  // viewport, not at page load (the canvas sits at the bottom of the page).
+  const shaderCanvases = document.querySelectorAll<HTMLCanvasElement>('canvas[data-shader-canvas]');
+  if (shaderCanvases.length > 0 && 'IntersectionObserver' in window) {
+    const lazyObserver = new IntersectionObserver(
+      (entries, observer) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            initShader();
+            observer.disconnect();
+            return;
+          }
+        }
+      },
+      { rootMargin: '800px 0px' },
+    );
+    shaderCanvases.forEach((canvas) => lazyObserver.observe(canvas));
+  } else {
+    initShader();
+  }
+  document.addEventListener('astro:after-swap', () => {
+    const remaining = document.querySelectorAll<HTMLCanvasElement>(
+      'canvas[data-shader-canvas]:not([data-initialized="true"])',
+    );
+    if (remaining.length > 0) initShader();
+  });
 </script>

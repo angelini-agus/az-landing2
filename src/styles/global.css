@@ -139,10 +139,11 @@
     transition: transform 100ms ease-out;
   }
 
-  /* Primary CTA (única excepción turquesa). */
+  /* Primary CTA (única excepción turquesa). Texto indigo para cumplir
+     contraste WCAG AA sobre el turquesa de marca (#3FA88F). */
   .btn-primary {
     background: var(--color-turq-cta);
-    color: #fff;
+    color: var(--color-indigo-texto);
   }
 
   .btn-primary:hover {

@@ -1,0 +1,45 @@
+---
+// Custom 404 page: styled to match the AZ Limpieza design system,
+// with a working CTA back to the landing. Replaces the default Vercel 404.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Bubble from '../components/ui/Bubble.astro';
+
+const title = 'Página no encontrada — AZ Servicios de Limpieza';
+const description = 'La página que buscás no existe. Volvé al inicio de AZ Servicios de Limpieza.';
+---
+
+<BaseLayout {title} {description} canonicalPath="/404">
+  <main class="relative flex min-h-screen items-center justify-center overflow-hidden bg-bg-claro">
+    <!-- Decorative bubbles -->
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <Bubble size={300} top={-10} left={-8} blur={65} opacity={0.45} tone="light" duration={6} delay={0} />
+      <Bubble size={200} top={75} left={88} blur={55} opacity={0.4} tone="gray" duration={5.5} delay={1.2} />
+    </div>
+
+    <div class="container-page relative py-24 text-center">
+      <p class="font-display text-sm font-semibold uppercase tracking-[0.12em] text-violeta-osc">
+        Error 404
+      </p>
+      <h1 class="font-display mx-auto mt-4 max-w-2xl text-4xl font-semibold leading-[1.15] tracking-[-0.01em] text-indigo-texto sm:text-5xl">
+        Esa página no existe (o se mudó)
+      </h1>
+      <p class="mx-auto mt-4 max-w-lg text-base leading-relaxed text-texto-secundario">
+        Si llegaste acá desde un enlace, escribinos y te ayudamos a encontrar lo que buscás.
+      </p>
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a
+          href="/"
+          class="btn btn-primary px-8 py-4 text-sm font-semibold"
+        >
+          Volver al inicio
+        </a>
+        <a
+          href="/#contacto"
+          class="btn btn-secondary px-8 py-4 text-sm font-semibold"
+        >
+          Escribinos por mail
+        </a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

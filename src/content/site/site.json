@@ -1,9 +1,5 @@
 {
-  "name": "Tu Empresa",
-  "tagline": "Descripción breve",
-  "contact": {
-    "email": "contacto@ejemplo.com",
-    "phone": "+54 000 000-0000",
-    "whatsapp": "+54 000 000-0000"
-  }
+  "name": "AZ Servicios de Limpieza",
+  "tagline": "Limpieza integral para consorcios, oficinas y clínicas en Rosario. Equipo propio con control de asistencia por QR y GPS.",
+  "contact": {}
 }

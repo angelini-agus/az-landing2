@@ -87,33 +87,25 @@ test('responsive: no hay overflow horizontal en los breakpoints', async ({ page 
   }
 });
 
-test('contacto fondo: móvil usa SVG estático de nubes sin WebGL; desktop ejecuta WebGL', async ({ page }) => {
+test('contacto fondo: tanto móvil como desktop usan SVG estático de nubes sin WebGL', async ({ page }) => {
   // 1. Mobile viewport (390x844)
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/#contacto');
   await page.waitForTimeout(600);
 
   const canvas = page.locator('canvas[data-shader-canvas]');
-  const staticCloud = page.locator('#contacto svg[viewBox="0 0 1200 600"]');
+  const staticCloud = page.locator('#contacto svg[viewBox="0 0 1440 540"]');
 
-  // En móvil: el canvas WebGL está oculto y no se inicializa
-  await expect(canvas).toBeHidden();
-  const isInitializedMobile = await canvas.getAttribute('data-initialized');
-  expect(isInitializedMobile).toBeNull();
-
-  // En móvil: el SVG estático de nubes es visible
+  // En móvil: el SVG estático de nubes es visible y no hay canvas WebGL
   await expect(staticCloud).toBeVisible();
+  await expect(canvas).toHaveCount(0);
 
   // 2. Desktop viewport (1440x900)
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/#contacto');
   await page.waitForTimeout(600);
 
-  // En desktop: el canvas WebGL es visible y se inicializa
-  await expect(canvas).toBeVisible();
-  const isInitializedDesktop = await canvas.getAttribute('data-initialized');
-  expect(isInitializedDesktop).toBe('true');
-
-  // En desktop: el SVG estático de nubes está oculto
-  await expect(staticCloud).toBeHidden();
+  // En desktop: el SVG estático de nubes sigue siendo el fondo visible sin canvas WebGL
+  await expect(staticCloud).toBeVisible();
+  await expect(canvas).toHaveCount(0);
 });

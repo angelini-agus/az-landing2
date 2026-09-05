@@ -3,7 +3,6 @@
 // Photo banner at top with glassmorphic contact card overlapping it, matching the visual reference.
 import Bubble from './ui/Bubble.astro';
 import CtaRampButton from './ui/CtaRampButton.astro';
-import ShaderBackground from './ui/ShaderBackground.astro';
 import StaticCloudBackground from './ui/StaticCloudBackground.astro';
 
 interface Props {
@@ -23,17 +22,14 @@ const {
   id="contacto"
   class="relative min-h-[calc(100vh-5.5rem)] flex flex-col justify-center overflow-visible bg-bg-claro py-8 lg:py-12"
 >
-  <!-- Top Photo Banner (Static cloud SVG on mobile, dynamic Simplex Noise WebGL on desktop) -->
+  <!-- Top Photo Banner (Static cloud SVG background with soft violet atmosphere) -->
   <div class="relative mx-auto w-full px-2 sm:px-4 lg:px-6 pt-6 sm:pt-8 lg:pt-10">
     <div
       data-contact-banner
       class="relative h-[384px] w-full overflow-hidden rounded-[2.5rem] bg-[#2B2640] shadow-xl sm:h-[456px] lg:h-[528px]"
     >
-      <!-- Static Cloud SVG Background for Mobile (fast, zero CPU/GPU overhead) -->
-      <StaticCloudBackground class="absolute inset-0 z-0 h-full w-full block lg:hidden" />
-
-      <!-- Simplex Noise WebGL Canvas Background (Desktop only, interactive) -->
-      <ShaderBackground class="absolute inset-0 z-0 h-full w-full hidden lg:block" />
+      <!-- Static Cloud SVG Background (fast, zero CPU/GPU overhead on all devices) -->
+      <StaticCloudBackground class="absolute inset-0 z-0 h-full w-full" />
 
       <!-- Floating decorative bubbles overlapping the banner edges -->
       <div class="pointer-events-none absolute inset-0 z-10 overflow-hidden" aria-hidden="true">

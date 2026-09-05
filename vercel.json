@@ -10,6 +10,10 @@
       "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/"
     },
     {
+      "source": "/login/",
+      "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/"
+    },
+    {
       "source": "/login/:path*",
       "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/:path*"
     }

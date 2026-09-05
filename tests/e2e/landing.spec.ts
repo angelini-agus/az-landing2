@@ -109,3 +109,15 @@ test('contacto fondo: tanto móvil como desktop usan SVG estático de nubes sin 
   await expect(staticCloud).toBeVisible();
   await expect(canvas).toHaveCount(0);
 });
+
+test('branding: el nuevo favicon está presente y el viejo favicon.svg fue eliminado', async ({ page }) => {
+  await page.goto('/');
+  const oldSvgFavicon = page.locator('link[rel="icon"][href*="favicon.svg"]');
+  await expect(oldSvgFavicon).toHaveCount(0);
+
+  const pngFavicon = page.locator('link[rel="icon"][href="/favicon-32x32.png"]');
+  await expect(pngFavicon).toHaveCount(1);
+
+  const appleTouchIcon = page.locator('link[rel="apple-touch-icon"][href="/apple-touch-icon.png"]');
+  await expect(appleTouchIcon).toHaveCount(1);
+});

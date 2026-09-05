@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/login",
+      "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/"
+    },
+    {
+      "source": "/login/:path*",
+      "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/:path*"
+    }
+  ]
+}

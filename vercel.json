@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "http://api-az-limpieza.somee.com/api/:path*"
+    },
+    {
       "source": "/login",
       "destination": "https://az-sistema-prod-angelini-agus-projects.vercel.app/"
     },

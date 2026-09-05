@@ -25,7 +25,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run preview -- --port 4322',
+    command: process.platform === 'win32' ? 'npm.cmd run preview -- --port 4322' : 'npm run preview -- --port 4322',
     url: 'http://localhost:4322',
     reuseExistingServer: true,
     timeout: 60_000,

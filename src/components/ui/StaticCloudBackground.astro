@@ -1,0 +1,153 @@
+---
+// StaticCloudBackground.astro — Lightweight, static cloud background for mobile devices.
+// Pure vector SVG using multi-stop radial and linear gradients with organic cloud billows.
+// Matches the exact AZ brand palette (#2B2640, #5B4E8A, #8B7BC7, #C4B8E8, #E9E2F7)
+// with zero JS, zero animation loops, zero CPU/GPU overhead, and instant load time.
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['overflow-hidden pointer-events-none select-none', className]}
+  aria-hidden="true"
+>
+  <svg
+    viewBox="0 0 1200 600"
+    preserveAspectRatio="xMidYMid slice"
+    xmlns="http://www.w3.org/2000/svg"
+    class="w-full h-full block"
+  >
+    <defs>
+      <!-- Base atmospheric background gradient -->
+      <linearGradient id="az-cloud-base" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1E192D" />
+        <stop offset="35%" stop-color="#2B2640" />
+        <stop offset="70%" stop-color="#3C325F" />
+        <stop offset="100%" stop-color="#251F38" />
+      </linearGradient>
+
+      <!-- Deep violet background cloud masses -->
+      <radialGradient id="az-cloud-deep-l" cx="30%" cy="40%" r="50%">
+        <stop offset="0%" stop-color="#5B4E8A" stop-opacity="0.65" />
+        <stop offset="45%" stop-color="#463A70" stop-opacity="0.4" />
+        <stop offset="85%" stop-color="#2B2640" stop-opacity="0" />
+      </radialGradient>
+
+      <radialGradient id="az-cloud-deep-r" cx="75%" cy="35%" r="55%">
+        <stop offset="0%" stop-color="#705EA6" stop-opacity="0.6" />
+        <stop offset="50%" stop-color="#544780" stop-opacity="0.35" />
+        <stop offset="90%" stop-color="#2B2640" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Mid-tone lilac cloud billows -->
+      <radialGradient id="az-cloud-mid-1" cx="42%" cy="42%" r="40%">
+        <stop offset="0%" stop-color="#8B7BC7" stop-opacity="0.55" />
+        <stop offset="40%" stop-color="#6E5FA6" stop-opacity="0.3" />
+        <stop offset="80%" stop-color="#3D325E" stop-opacity="0" />
+      </radialGradient>
+
+      <radialGradient id="az-cloud-mid-2" cx="80%" cy="50%" r="42%">
+        <stop offset="0%" stop-color="#8B7BC7" stop-opacity="0.5" />
+        <stop offset="45%" stop-color="#5B4E8A" stop-opacity="0.25" />
+        <stop offset="85%" stop-color="#2B2640" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Bright luminous cloud crests and puffs -->
+      <radialGradient id="az-cloud-bright-center" cx="52%" cy="32%" r="35%">
+        <stop offset="0%" stop-color="#E9E2F7" stop-opacity="0.5" />
+        <stop offset="25%" stop-color="#C4B8E8" stop-opacity="0.42" />
+        <stop offset="60%" stop-color="#8B7BC7" stop-opacity="0.2" />
+        <stop offset="95%" stop-color="#5B4E8A" stop-opacity="0" />
+      </radialGradient>
+
+      <radialGradient id="az-cloud-bright-r" cx="82%" cy="28%" r="30%">
+        <stop offset="0%" stop-color="#FAF8FE" stop-opacity="0.55" />
+        <stop offset="30%" stop-color="#C4B8E8" stop-opacity="0.38" />
+        <stop offset="70%" stop-color="#8B7BC7" stop-opacity="0.15" />
+        <stop offset="100%" stop-color="#5B4E8A" stop-opacity="0" />
+      </radialGradient>
+
+      <radialGradient id="az-cloud-bright-l" cx="22%" cy="30%" r="32%">
+        <stop offset="0%" stop-color="#E9E2F7" stop-opacity="0.45" />
+        <stop offset="35%" stop-color="#C4B8E8" stop-opacity="0.3" />
+        <stop offset="75%" stop-color="#8B7BC7" stop-opacity="0.1" />
+        <stop offset="100%" stop-color="#2B2640" stop-opacity="0" />
+      </radialGradient>
+
+      <!-- Linear cloud wave gradients -->
+      <linearGradient id="az-wave-1" x1="15%" y1="10%" x2="85%" y2="90%">
+        <stop offset="0%" stop-color="#C4B8E8" stop-opacity="0.4" />
+        <stop offset="35%" stop-color="#8B7BC7" stop-opacity="0.3" />
+        <stop offset="70%" stop-color="#5B4E8A" stop-opacity="0.15" />
+        <stop offset="100%" stop-color="#2B2640" stop-opacity="0" />
+      </linearGradient>
+
+      <linearGradient id="az-wave-2" x1="85%" y1="20%" x2="15%" y2="80%">
+        <stop offset="0%" stop-color="#E9E2F7" stop-opacity="0.35" />
+        <stop offset="40%" stop-color="#8B7BC7" stop-opacity="0.25" />
+        <stop offset="80%" stop-color="#5B4E8A" stop-opacity="0.1" />
+        <stop offset="100%" stop-color="#2B2640" stop-opacity="0" />
+      </linearGradient>
+
+      <!-- Lower ambient cloud base -->
+      <radialGradient id="az-cloud-bottom" cx="50%" cy="85%" r="60%">
+        <stop offset="0%" stop-color="#5B4E8A" stop-opacity="0.45" />
+        <stop offset="50%" stop-color="#3A305A" stop-opacity="0.25" />
+        <stop offset="90%" stop-color="#1E192D" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+
+    <!-- Base Canvas -->
+    <rect width="1200" height="600" fill="url(#az-cloud-base)" />
+
+    <!-- Deep Ambient Cloud Masses -->
+    <rect width="1200" height="600" fill="url(#az-cloud-deep-l)" />
+    <rect width="1200" height="600" fill="url(#az-cloud-deep-r)" />
+
+    <!-- Organic Billowing Cloud Formation 1: Lower-to-mid rolling mass -->
+    <path
+      d="M-50,380 C80,310 180,340 260,290 C340,240 420,260 500,220 C580,180 680,210 760,170 C840,130 960,160 1060,120 C1140,90 1220,130 1280,110 L1280,620 L-50,620 Z"
+      fill="url(#az-cloud-mid-1)"
+      opacity="0.7"
+    />
+
+    <!-- Organic Billowing Cloud Formation 2: Sweeping cumulus crests across center -->
+    <path
+      d="M-30,260 C60,200 160,220 240,170 C330,115 450,140 540,90 C630,40 730,75 830,30 C910,-5 1010,25 1100,-10 C1160,-30 1220,-10 1280,10 L1280,480 C1160,520 1020,490 920,530 C800,580 660,540 520,580 C380,610 240,560 110,580 C20,600 -20,560 -50,540 Z"
+      fill="url(#az-wave-1)"
+      opacity="0.8"
+    />
+
+    <!-- Soft Diffuse Cloud Orbs (adds volumetric depth) -->
+    <ellipse cx="280" cy="200" rx="260" ry="160" fill="url(#az-cloud-bright-l)" />
+    <ellipse cx="620" cy="240" rx="320" ry="190" fill="url(#az-cloud-bright-center)" />
+    <ellipse cx="940" cy="180" rx="270" ry="170" fill="url(#az-cloud-bright-r)" />
+    <ellipse cx="780" cy="320" rx="300" ry="170" fill="url(#az-cloud-mid-2)" />
+
+    <!-- Organic Billowing Cloud Formation 3: Top wisps and rolling puffs -->
+    <path
+      d="M120,180 C200,120 300,130 380,95 C460,60 560,75 640,40 C730,2 840,25 930,0 C1010,-20 1100,-5 1180,-30 L1180,340 C1080,300 970,330 870,290 C780,250 670,275 570,240 C460,205 340,230 230,195 C180,180 140,195 120,180 Z"
+      fill="url(#az-wave-2)"
+      opacity="0.65"
+    />
+
+    <!-- Cloud Highlights: soft luminous centers simulating backlit cloud edges -->
+    <path
+      d="M380,140 C440,100 520,110 580,85 C640,60 720,70 780,45 C820,30 870,40 910,25 C880,80 790,95 720,125 C650,150 560,140 490,165 C430,185 390,165 380,140 Z"
+      fill="#FAF8FE"
+      opacity="0.18"
+    />
+    <path
+      d="M620,180 C680,145 760,155 820,130 C870,110 930,120 980,95 C950,140 880,160 820,185 C760,205 690,195 620,180 Z"
+      fill="#E9E2F7"
+      opacity="0.22"
+    />
+
+    <!-- Lower atmospheric base mist -->
+    <rect width="1200" height="600" fill="url(#az-cloud-bottom)" />
+  </svg>
+</div>

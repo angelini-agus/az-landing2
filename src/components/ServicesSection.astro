@@ -97,11 +97,7 @@ const {
               style={`top: 7rem; z-index: ${zIndex};`}
             >
               <article class="group relative overflow-hidden rounded-[28px] border border-lila-suave/45 bg-[#FAF8FE] p-5 shadow-lg transition-all duration-300 hover:border-lila-medio/60 hover:shadow-2xl sm:p-6 lg:h-[calc((100vh-9rem)/2)] lg:min-h-[360px] lg:max-h-[420px] lg:rounded-[36px] lg:p-7">
-                <a
-                  href={itemLink}
-                  aria-label={`Consultar por ${service.title}`}
-                  class="flex h-full flex-col gap-6 sm:flex-row sm:items-center sm:justify-between lg:gap-10"
-                >
+                <div class="flex h-full flex-col gap-6 sm:flex-row sm:items-center sm:justify-between lg:gap-10">
                   <!-- 1. Left: Image container with strict height containment -->
                   <div class="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-2xl border border-lila-suave/35 bg-gradient-to-br from-lila-pastel via-bg-claro to-lila-suave/25 shadow-2xs sm:h-full sm:w-[240px] md:w-[290px] lg:w-[340px] xl:w-[380px] lg:rounded-[24px]">
                     {service.image ? (
@@ -193,7 +189,11 @@ const {
 
                   <!-- 3. Right: Action Indicator (Minimalist Diagonal Arrow ↗) -->
                   <div class="flex shrink-0 items-center sm:self-center">
-                    <div class="grid h-12 w-12 place-items-center rounded-2xl border border-lila-suave/40 bg-white text-texto-secundario shadow-xs transition-all duration-300 group-hover:border-violeta-osc group-hover:bg-violeta-osc group-hover:text-white group-hover:shadow-md lg:h-14 lg:w-14">
+                    <a
+                      href={itemLink}
+                      aria-label={`Consultar por ${service.title}`}
+                      class="group/btn grid h-12 w-12 place-items-center rounded-2xl border border-lila-suave/40 bg-white text-texto-secundario shadow-xs transition-all duration-300 hover:border-violeta-osc hover:bg-violeta-osc hover:text-white hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violeta-osc lg:h-14 lg:w-14"
+                    >
                       <svg
                         viewBox="0 0 24 24"
                         fill="none"
@@ -201,15 +201,15 @@ const {
                         stroke-width="1.75"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        class="h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 motion-reduce:transform-none lg:h-6 lg:w-6"
+                        class="h-5 w-5 transition-transform duration-300 group-hover/btn:-translate-y-1 group-hover/btn:translate-x-1 motion-reduce:transform-none lg:h-6 lg:w-6"
                         aria-hidden="true"
                       >
                         <path d="M7 17L17 7" />
                         <path d="M7 7h10v10" />
                       </svg>
-                    </div>
+                    </a>
                   </div>
-                </a>
+                </div>
               </article>
             </div>
           );

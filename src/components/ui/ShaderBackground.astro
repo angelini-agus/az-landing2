@@ -11,8 +11,7 @@ const { class: className = '' } = Astro.props;
 
 <canvas
   data-shader-canvas
-  class:list={['block w-full h-full', className]}
-  style="display: block; width: 100%; height: 100%;"
+  class:list={['w-full h-full', className]}
 ></canvas>
 
 <script>
@@ -291,26 +290,28 @@ void main() {
     offsetX: 0.0,
     offsetY: 0.0,
     drift: 0.0,
-    cursorEnabled: true,
-    cursorEffect: 2.0,
-    cursorStrength: 0.65,
-    cursorRadius: 0.46,
+    cursorEnabled: false,
     oklab: 1.0,
     timeScale: 0.65, // Gentle, fluid atmospheric flow
   };
 
+  const DESKTOP_QUERY = '(min-width: 1024px)';
+  const isDesktop = () => window.matchMedia(DESKTOP_QUERY).matches;
+
   function initShader() {
+    if (!isDesktop()) return;
+
     const canvases = document.querySelectorAll<HTMLCanvasElement>('canvas[data-shader-canvas]');
 
     canvases.forEach((canvas) => {
       if (canvas.dataset.initialized === 'true') return;
+      if (window.getComputedStyle(canvas).display === 'none') return;
       canvas.dataset.initialized = 'true';
 
-      // Reduced motion: render a single static frame, no rAF loop or cursor.
+      // Reduced motion: render a single static frame, no rAF loop.
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion) {
         UNIFORMS.timeScale = 0;
-        UNIFORMS.cursorEnabled = false;
       }
 
       const glCtx = canvas.getContext('webgl', { antialias: false, powerPreference: 'low-power' });
@@ -385,26 +386,10 @@ void main() {
         UNIFORMS.drift,
         UNIFORMS.oklab,
       );
-      gl.uniform4f(
-        uni.cursor,
-        0,
-        UNIFORMS.cursorEffect,
-        UNIFORMS.cursorStrength,
-        UNIFORMS.cursorRadius,
-      );
+      gl.uniform4f(uni.cursor, 0, 0, 0, 0);
 
-      let targetX = 0;
-      let targetY = 0;
-      let targetPresence = 0;
-      let mouseX = 0;
-      let mouseY = 0;
-      let cursorPresence = 0;
-      let pointerKnown = false;
-      let pointerClientX = 0;
-      let pointerClientY = 0;
       let bounds = canvas.getBoundingClientRect();
       let raf = 0;
-      let lastNow: number | null = null;
       let visible = document.visibilityState === 'visible';
       let inView = true;
       let disposed = false;
@@ -429,99 +414,60 @@ void main() {
       };
 
       function requestRender() {
-        if (!disposed && visible && inView && raf === 0) {
+        if (!disposed && visible && inView && isDesktop() && raf === 0) {
           raf = requestAnimationFrame(render);
         }
       }
 
-      const updatePointerTarget = () => {
-        if (!pointerKnown || bounds.width === 0 || bounds.height === 0) return;
-        const inside =
-          pointerClientX >= bounds.left &&
-          pointerClientX <= bounds.right &&
-          pointerClientY >= bounds.top &&
-          pointerClientY <= bounds.bottom;
-        if (!inside) {
-          targetPresence = 0;
-          requestRender();
-          return;
-        }
-        const nextX = ((pointerClientX - bounds.left) / bounds.width) * 2 - 1;
-        const nextY = -(((pointerClientY - bounds.top) / bounds.height) * 2 - 1);
-        if (targetPresence === 0 && cursorPresence < 0.01) {
-          mouseX = nextX;
-          mouseY = nextY;
-        }
-        targetX = nextX;
-        targetY = nextY;
-        targetPresence = 1;
-        requestRender();
-      };
-
-      const onPointerMove = (event: PointerEvent) => {
-        pointerKnown = true;
-        pointerClientX = event.clientX;
-        pointerClientY = event.clientY;
-        bounds = canvas.getBoundingClientRect();
-        updatePointerTarget();
-      };
-
-      const onPointerLeave = () => {
-        pointerKnown = false;
-        targetPresence = 0;
-        requestRender();
-      };
-
       const updateLayout = () => {
+        if (!isDesktop()) return;
         bounds = canvas.getBoundingClientRect();
         resizeCanvas();
-        updatePointerTarget();
         requestRender();
       };
 
       window.addEventListener('resize', updateLayout);
-      if (UNIFORMS.cursorEnabled) {
-        window.addEventListener('pointermove', onPointerMove, { passive: true });
-        window.addEventListener('pointercancel', onPointerLeave);
-        window.addEventListener('scroll', updateLayout, true);
-        window.addEventListener('blur', onPointerLeave);
-        document.documentElement.addEventListener('pointerleave', onPointerLeave);
-      }
 
-      const resizeObserver = new ResizeObserver(updateLayout);
+      const resizeObserver = new ResizeObserver(() => {
+        if (isDesktop()) updateLayout();
+      });
       resizeObserver.observe(canvas);
 
       const intersectionObserver = new IntersectionObserver(([entry]) => {
         inView = entry?.isIntersecting ?? true;
-        if (inView) requestRender();
+        if (inView && isDesktop()) requestRender();
         else if (raf !== 0) {
           cancelAnimationFrame(raf);
           raf = 0;
-          lastNow = null;
         }
       });
       intersectionObserver.observe(canvas);
 
       const onVisibilityChange = () => {
         visible = document.visibilityState === 'visible';
-        if (visible) requestRender();
+        if (visible && isDesktop()) requestRender();
         else if (raf !== 0) {
           cancelAnimationFrame(raf);
           raf = 0;
-          lastNow = null;
         }
       };
       document.addEventListener('visibilitychange', onVisibilityChange);
 
+      const mql = window.matchMedia(DESKTOP_QUERY);
+      const onMediaChange = (e: MediaQueryListEvent) => {
+        if (e.matches) {
+          updateLayout();
+          requestRender();
+        } else if (raf !== 0) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      };
+      mql.addEventListener('change', onMediaChange);
+
       function render(now: number) {
         raf = 0;
-        if (disposed || !visible || !inView) return;
-        const dt = lastNow === null ? 0 : Math.min((now - lastNow) / 1000, 0.1);
-        lastNow = now;
-        const follow = 1 - Math.exp(-12 * dt);
-        mouseX += (targetX - mouseX) * follow;
-        mouseY += (targetY - mouseY) * follow;
-        cursorPresence += (targetPresence - cursorPresence) * follow;
+        if (disposed || !visible || !inView || !isDesktop()) return;
         resizeCanvas();
         const width = canvas.width;
         const height = canvas.height;
@@ -536,53 +482,54 @@ void main() {
           uni.space,
           UNIFORMS.offsetX,
           UNIFORMS.offsetY,
-          mouseX,
-          mouseY,
+          0,
+          0,
         );
-        gl.uniform4f(
-          uni.cursor,
-          UNIFORMS.cursorEnabled ? cursorPresence : 0,
-          UNIFORMS.cursorEffect,
-          UNIFORMS.cursorStrength,
-          UNIFORMS.cursorRadius,
-        );
+        gl.uniform4f(uni.cursor, 0, 0, 0, 0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
-        const pointerSettling =
-          Math.abs(targetX - mouseX) > 0.001 ||
-          Math.abs(targetY - mouseY) > 0.001 ||
-          Math.abs(targetPresence - cursorPresence) > 0.001;
-        if (timeAnimated || pointerSettling) requestRender();
-        else lastNow = null;
+        if (timeAnimated) requestRender();
       }
 
       requestRender();
     });
   }
 
-  // Lazy init: compile the GLSL program only when the canvas approaches the
-  // viewport, not at page load (the canvas sits at the bottom of the page).
+  // Lazy init: compile the GLSL program only on desktop (min-width: 1024px)
+  // and only when the canvas approaches the viewport.
   const shaderCanvases = document.querySelectorAll<HTMLCanvasElement>('canvas[data-shader-canvas]');
+  const desktopMql = window.matchMedia(DESKTOP_QUERY);
+
+  function tryInitShader() {
+    if (!isDesktop()) return;
+    initShader();
+  }
+
   if (shaderCanvases.length > 0 && 'IntersectionObserver' in window) {
     const lazyObserver = new IntersectionObserver(
       (entries, observer) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            initShader();
-            observer.disconnect();
-            return;
+            if (isDesktop()) {
+              initShader();
+              observer.disconnect();
+              return;
+            }
           }
         }
       },
       { rootMargin: '800px 0px' },
     );
     shaderCanvases.forEach((canvas) => lazyObserver.observe(canvas));
+
+    desktopMql.addEventListener('change', (e) => {
+      if (e.matches) {
+        tryInitShader();
+      }
+    });
   } else {
-    initShader();
+    tryInitShader();
   }
   document.addEventListener('astro:after-swap', () => {
-    const remaining = document.querySelectorAll<HTMLCanvasElement>(
-      'canvas[data-shader-canvas]:not([data-initialized="true"])',
-    );
-    if (remaining.length > 0) initShader();
+    tryInitShader();
   });
 </script>

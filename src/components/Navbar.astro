@@ -184,113 +184,139 @@ const contactHref = '#contacto';
   <!-- Mobile overlay menu -->
   <div
     id="mobile-menu"
-    class="fixed inset-0 -z-10 bg-bg-claro/95 opacity-0 backdrop-blur-lg transition-opacity duration-300 motion-reduce:transition-none group-data-[open]:opacity-100 invisible group-data-[open]:visible"
+    class="fixed inset-0 -z-10 bg-bg-claro/95 opacity-0 backdrop-blur-lg transition-opacity duration-300 motion-reduce:transition-none group-data-[open]:opacity-100 invisible group-data-[open]:visible overflow-y-auto"
   >
-    <div class="flex h-full flex-col items-center justify-center gap-6 px-8">
-      {
-        links.map((link, index) => (
+    <div class="flex min-h-full flex-col items-center justify-between px-8 pt-20 pb-8">
+      <!-- Main links and contact CTA -->
+      <div class="flex flex-col items-center justify-center gap-5 sm:gap-6 my-auto w-full">
+        {
+          links.map((link, index) => (
+            <a
+              href={link.href}
+              style={`--i: ${index}`}
+              class="flex translate-y-3 items-center gap-3 text-2xl font-semibold text-indigo-texto opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-sm"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-5 w-5 text-lila-medio"
+                aria-hidden="true"
+              >
+                {link.icon === 'users' && (
+                  <>
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </>
+                )}
+                {link.icon === 'services' && (
+                  <>
+                    <rect width="7" height="7" x="3" y="3" rx="1" />
+                    <rect width="7" height="7" x="14" y="3" rx="1" />
+                    <rect width="7" height="7" x="14" y="14" rx="1" />
+                    <rect width="7" height="7" x="3" y="14" rx="1" />
+                  </>
+                )}
+                {link.icon === 'alert' && (
+                  <>
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </>
+                )}
+                {link.icon === 'steps' && (
+                  <>
+                    <rect width="18" height="18" x="3" y="4" rx="2" />
+                    <path d="M16 2v4" />
+                    <path d="M8 2v4" />
+                    <path d="m9 16 2 2 4-4" />
+                  </>
+                )}
+                {link.icon === 'question' && (
+                  <>
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                    <path d="M12 17h.01" />
+                  </>
+                )}
+              </svg>
+              {link.label}
+            </a>
+          ))
+        }
+
+        <div
+          style="--i: 5"
+          class="w-full max-w-xs pt-2 translate-y-3 opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
+        >
           <a
-            href={link.href}
-            style={`--i: ${index}`}
-            class="flex translate-y-3 items-center gap-3 text-2xl font-semibold text-indigo-texto opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-sm"
+            href={contactHref}
+            class="group isolate relative flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-semibold text-violeta-osc transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio"
           >
             <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-5 w-5 text-lila-medio"
+              class="pointer-events-none absolute inset-0 z-0 h-full w-full group-hover:scale-[1.02] motion-reduce:transform-none"
+              viewBox="0 0 260 60"
+              preserveAspectRatio="none"
               aria-hidden="true"
             >
-              {link.icon === 'users' && (
-                <>
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </>
-              )}
-              {link.icon === 'services' && (
-                <>
-                  <rect width="7" height="7" x="3" y="3" rx="1" />
-                  <rect width="7" height="7" x="14" y="3" rx="1" />
-                  <rect width="7" height="7" x="14" y="14" rx="1" />
-                  <rect width="7" height="7" x="3" y="14" rx="1" />
-                </>
-              )}
-              {link.icon === 'alert' && (
-                <>
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="12" y1="8" x2="12" y2="12" />
-                  <line x1="12" y1="16" x2="12.01" y2="16" />
-                </>
-              )}
-              {link.icon === 'steps' && (
-                <>
-                  <rect width="18" height="18" x="3" y="4" rx="2" />
-                  <path d="M16 2v4" />
-                  <path d="M8 2v4" />
-                  <path d="m9 16 2 2 4-4" />
-                </>
-              )}
-              {link.icon === 'question' && (
-                <>
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                  <path d="M12 17h.01" />
-                </>
-              )}
+              <path
+                d="M 16 6 L 244 0 C 253 0 260 7 260 16 L 260 44 C 260 53 253 60 244 60 L 16 60 C 7 60 0 53 0 44 L 0 22 C 0 13 7 6 16 6 Z"
+                fill="var(--color-lila-pastel)"
+                stroke="var(--color-lila-suave)"
+                stroke-width="1.5"
+              />
             </svg>
-            {link.label}
+            <span class="relative z-10 flex items-center gap-2">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="h-4 w-4 text-violeta-osc"
+                aria-hidden="true"
+              >
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+              Escribinos
+            </span>
           </a>
-        ))
-      }
+        </div>
+      </div>
 
+      <!-- Acceso empleados (separated from the navigation links down below with footer format) -->
       <div
-        style="--i: 3"
-        class="w-full max-w-xs translate-y-3 opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
+        style="--i: 6"
+        class="mt-8 pt-6 border-t border-lila-suave/35 w-full max-w-xs flex justify-center translate-y-3 opacity-0 transition-all duration-300 [transition-delay:calc(var(--i)*60ms)] group-data-[open]:translate-y-0 group-data-[open]:opacity-100 motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none"
       >
         <a
-          href={contactHref}
-          class="group isolate relative flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-semibold text-violeta-osc transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio"
+          href={clientLoginUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-xl border border-lila-suave/60 bg-white px-5 py-2.5 text-xs font-semibold text-violeta-osc shadow-2xs transition-all duration-200 hover:border-violeta-osc hover:bg-violeta-osc hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lila-medio"
         >
           <svg
-            class="pointer-events-none absolute inset-0 z-0 h-full w-full group-hover:scale-[1.02] motion-reduce:transform-none"
-            viewBox="0 0 260 60"
-            preserveAspectRatio="none"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="h-3.5 w-3.5"
             aria-hidden="true"
           >
-            <path
-              d="M 16 6 L 244 0 C 253 0 260 7 260 16 L 260 44 C 260 53 253 60 244 60 L 16 60 C 7 60 0 53 0 44 L 0 22 C 0 13 7 6 16 6 Z"
-              fill="var(--color-lila-pastel)"
-              stroke="var(--color-lila-suave)"
-              stroke-width="1.5"
-            />
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+            <polyline points="10 17 15 12 10 7" />
+            <line x1="15" y1="12" x2="3" y2="12" />
           </svg>
-          <span class="relative z-10 flex items-center gap-2">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="h-4 w-4 text-violeta-osc"
-              aria-hidden="true"
-            >
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-            Escribinos
-          </span>
-        </a>
-        <a
-          href={clientLoginUrl}
-          class="mt-3 block text-center text-sm text-violeta-osc focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lila-medio rounded-sm"
-        >
-          Institucional
+          Acceso empleados
         </a>
       </div>
     </div>

@@ -121,3 +121,19 @@ test('branding: el nuevo favicon está presente y el viejo favicon.svg fue elimi
   const appleTouchIcon = page.locator('link[rel="apple-touch-icon"][href="/apple-touch-icon.png"]');
   await expect(appleTouchIcon).toHaveCount(1);
 });
+
+test('institucional: botón de acceso a empleados en footer y menú móvil', async ({ page }) => {
+  await page.goto('/');
+
+  // Footer: botón 'Acceso empleados'
+  const footerLoginBtn = page.locator('footer a[href="/login"]');
+  await expect(footerLoginBtn).toBeVisible();
+  await expect(footerLoginBtn).toContainText('Acceso empleados');
+
+  // Menú móvil: abrir menú hamburguesa y verificar botón 'Acceso empleados'
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.click('#nav-toggle');
+  const mobileLoginBtn = page.locator('#mobile-menu a[href="/login"]');
+  await expect(mobileLoginBtn).toBeVisible();
+  await expect(mobileLoginBtn).toContainText('Acceso empleados');
+});
